@@ -149,13 +149,9 @@ public class Accessor implements Cloneable {
     /** Response header acquired from the server response. */
     private HashMap<String, String> resHeaders = new HashMap<String, String>();
 
-    // /**
-    // * コンストラクタ.
-    // * @param PersoniumContext Personiumコンテキスト
-    // */
     /**
      * This is the parameterized constructor initializing the various class variables.
-     * @param PersoniumContext PersoniumContext
+     * @param personiumContext PersoniumContext
      */
     public Accessor(PersoniumContext personiumContext) {
         this.expiresIn = 0;
