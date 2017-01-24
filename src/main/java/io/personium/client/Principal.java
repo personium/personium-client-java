@@ -14,3 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.personium.client;
+
+/**
+ * Principal Interface http://tools.ietf.org/html/rfc3744#section-5.5.1.
+ */
+public interface Principal {
+    /** constant expressing DAV:all pseudo-principal defined in rfc3744#section-5.5.1. */
+    Principal ALL = new Principal() {
+    };
+    /** constant expressing DAV:authenticated pseudo-principal defined in rfc3744#section-5.5.1. */
+    Principal AUTHENTICATED = new Principal() {
+    };
+    /** constant expressing DAV:unauthenticated pseudo-principal defined in rfc3744#section-5.5.1. */
+    Principal UNAUTHENTICATED = new Principal() {
+    };
+}

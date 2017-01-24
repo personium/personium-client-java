@@ -14,3 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.personium.client.utils;
+
+///**
+// * 標準出力ログファクトリークラス.
+// */
+/**
+ * This is the Standard output log factory class.
+ */
+public class StdLoggerFactory extends PersoniumLoggerFactory {
+
+    /**
+     * This method is used for new instantiation of StdLogger.
+     * @param clazz Class
+     * @return PersoniumLogger Personium Log
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected PersoniumLogger newInstance(Class clazz) {
+        return new StdLogger(clazz);
+    }
+}
