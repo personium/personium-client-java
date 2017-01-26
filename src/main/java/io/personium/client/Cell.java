@@ -307,9 +307,9 @@ public class Cell extends AbstractODataContext {
      */
     public void setOwnerRepresentativeAccounts(String user) throws DaoException {
         String value;
-        value = "<dc:account>" + user + "</dc:account>";
+        value = "<p:account>" + user + "</p:account>";
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.proppatch(this.getUrl(), "dc:ownerRepresentativeAccounts", value);
+        rest.proppatch(this.getUrl(), "p:ownerRepresentativeAccounts", value);
     }
 
     // /**
@@ -325,12 +325,12 @@ public class Cell extends AbstractODataContext {
     public void setOwnerRepresentativeAccounts(String[] accountName) throws DaoException {
         StringBuilder sb = new StringBuilder();
         for (Object an : accountName) {
-            sb.append("<dc:account>");
+            sb.append("<p:account>");
             sb.append(an);
-            sb.append("</dc:account>");
+            sb.append("</p:account>");
         }
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.proppatch(this.getUrl(), "dc:ownerRepresentativeAccounts", sb.toString());
+        rest.proppatch(this.getUrl(), "p:ownerRepresentativeAccounts", sb.toString());
     }
 
     // /**

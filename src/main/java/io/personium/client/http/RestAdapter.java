@@ -591,7 +591,7 @@ public class RestAdapter implements IRestAdapter {
      */
     public PersoniumResponse proppatch(String url, String key, String value) throws DaoException {
         StringBuilder sb = new StringBuilder();
-        sb.append("<D:propertyupdate xmlns:D=\"DAV:\" xmlns:dc=\"urn:x-personium:xmlns\"><D:set><D:prop>");
+        sb.append("<D:propertyupdate xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop>");
         sb.append("<");
         sb.append(key);
         sb.append(">");

@@ -187,7 +187,7 @@ public class Acl {
         attrBase.setValue(roleBaseUrlStr);
         acl.setAttributeNodeNS(attrBase);
         if (this.requireSchemaAuthz != null && !this.requireSchemaAuthz.trim().equals("")) {
-            Attr attrRequireSchemaAuthz = document.createAttributeNS("urn:x-personium:xmlns", "personium:requireSchemaAuthz");
+            Attr attrRequireSchemaAuthz = document.createAttributeNS("urn:x-personium:xmlns", "p:requireSchemaAuthz");
             attrRequireSchemaAuthz.setValue(requireSchemaAuthz);
             acl.setAttributeNodeNS(attrRequireSchemaAuthz);
         }
