@@ -9,14 +9,14 @@
 	</appender>
 	<appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="threshold" value="debug"/>
-		<param name="File" value="dc-core.log" />
+		<param name="File" value="peresonium-core.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd"/>
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} (%t) [%-5p] %C{1} - %m%n" />
 		</layout>
 	</appender>
-	<category name="com.fujitsu.dc" >
+	<category name="io.personium" >
 		<priority value ="DEBUG" />
 		<appender-ref ref="file" />
 		<appender-ref ref="stdout"/>

@@ -14,3 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.personium.client.utils;
+
+/**
+ * This is the Personium log interface.
+ */
+public interface PersoniumLogger {
+
+    // /**
+    // * デバッグ情報出力.
+    // * @param msg 出力メッセージ
+    // */
+    /**
+     * This is the method signature for Debugging information output.
+     * @param msg output message
+     */
+    void debug(String msg);
+}

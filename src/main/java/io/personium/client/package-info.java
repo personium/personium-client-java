@@ -14,3 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * DAO classes used to perform client operations (CRUD).
+ * Library users are not expected to use the classes in this package directly.
+ */
+package io.personium.client;
+
