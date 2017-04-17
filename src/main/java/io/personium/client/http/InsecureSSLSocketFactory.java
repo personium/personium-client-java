@@ -39,7 +39,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
  * This is the SSLSocketFactory to ignore any certificate warning of SSL.
  */
 public class InsecureSSLSocketFactory extends SSLSocketFactory {
-    SSLContext sslContext = SSLContext.getInstance("SSL");
+    SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 
     // /**
     // * コンストラクタ.
