@@ -50,25 +50,25 @@ public interface IRestAdapter {
     // /** MKCol用リクエストボディ. */
     /** MKCol for the request body. */
     String REQUEST_BODY_MKCOL_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:personium=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
+            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
             + "</D:resourcetype></D:prop></D:set></D:mkcol>";
 
     // /** MKOData用リクエストボディ. */
     /** MKOData for the request body. */
     String REQUEST_BODYMKODATA_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:personium=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
+            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
             + "<p:odata/></D:resourcetype></D:prop></D:set></D:mkcol>";
 
     // /** サービスコレクション用リクエストボディ. */
     /** Collection services for the request body. */
     String REQUEST_BODY_SERVICE_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:personium=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype>"
+            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype>"
             + "<D:collection/><p:service/></D:resourcetype></D:prop></D:set></D:mkcol>";
 
     // /** PROPPATCH用リクエストボディ. */
     /** PROPPATCH for the request body. */
     String REQUEST_BODY_PROPPATCH_XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>"
-            + "<D:propertyupdate xmlns:D=\"DAV:\" xmlns:personium=\"urn:x-personium:xmlns\" "
+            + "<D:propertyupdate xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\" "
             + "xmlns:Z=\"http://www.w3.com/standards/z39.50/\"><D:set><D:prop>"
             + "<p:service language=\"JavaScript\" subject=\"SERVICE_SUBJECT\">"
             + "<p:path name=\"SERVICE_KEY\" src=\"SERVICE_VALUE\"/>"
