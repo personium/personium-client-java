@@ -807,7 +807,7 @@ public class Accessor implements Cloneable {
                 this.schema += "/";
             }
 
-            PersoniumResponse res = rest.post(UrlUtils.append(this.schema, "__auth"), schemaRequestBody.toString(),
+            PersoniumResponse res = rest.post(UrlUtils.append(this.schema, "__token"), schemaRequestBody.toString(),
                     RestAdapter.CONTENT_FORMURLENCODE, false);
             this.schemaAuth = res.bodyAsJson();
 
@@ -821,7 +821,7 @@ public class Accessor implements Cloneable {
         }
         // 認証してトークンを保持する
         /** To hold the token to authenticate. */
-        PersoniumResponse res = rest.post(UrlUtils.append(authUrl, "__auth"), requestBody.toString(),
+        PersoniumResponse res = rest.post(UrlUtils.append(authUrl, "__token"), requestBody.toString(),
                 RestAdapter.CONTENT_FORMURLENCODE, false);
         JSONObject json = res.bodyAsJson();
         this.accessToken = (String) json.get("access_token");
