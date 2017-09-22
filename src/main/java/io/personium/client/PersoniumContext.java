@@ -489,6 +489,9 @@ public class PersoniumContext {
         Accessor as = new Accessor(this);
         as.setAccessType(Accessor.KEY_TOKEN);
         as.setAccessToken(token);
+        as.setExpiresIn(0);
+        as.setRefreshToken("");
+        as.setRefreshExpiresIn(0);
         as.setDefaultHeaders(this.defaultHeaders);
         return as;
     }
