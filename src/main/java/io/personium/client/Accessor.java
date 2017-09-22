@@ -104,7 +104,7 @@ public class Accessor implements Cloneable {
 
     // /** 対象Cellの名前. */
     /** Cell name. */
-    private String targetCellName;
+    protected String targetCellName;
 
     // /** トランスセルトークン. */
     /** Transformer cell token. */
@@ -353,7 +353,7 @@ public class Accessor implements Cloneable {
      * This method sets the global access token.
      * @param token Access Token
      */
-    void setAccessToken(String token) {
+    protected void setAccessToken(String token) {
         this.accessToken = token;
     }
 
@@ -373,7 +373,7 @@ public class Accessor implements Cloneable {
      * This method returns the PersoniumContext object.
      * @return PersoniumContext
      */
-    PersoniumContext getContext() {
+    protected PersoniumContext getContext() {
         return this.context;
     }
 
@@ -421,6 +421,14 @@ public class Accessor implements Cloneable {
         return this.expiresIn;
     }
 
+    /**
+     * This method sets the expiration value of token.
+     * @param expiresIn Expiration date of the token
+     */
+    protected void setExpiresIn(Number expiresIn) {
+        this.expiresIn = expiresIn;
+    }
+
     // /**
     // * リフレッシュトークンの設定.
     // * @return リフレッシュトークン
@@ -431,6 +439,14 @@ public class Accessor implements Cloneable {
      */
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    /**
+     * This method sets the refresh token value.
+     * @param token Refresh token value
+     */
+    protected void setRefreshToken(String token) {
+        this.refreshToken = token;
     }
 
     // /**
@@ -445,6 +461,14 @@ public class Accessor implements Cloneable {
         return tokenType;
     }
 
+    /**
+     * This method sets the token type.
+     * @param type token type
+     */
+    protected void setTokenType(String type) {
+        this.tokenType = type;
+    }
+
     // /**
     // * リフレッシュトークンの有効期限の取得.
     // * @return リフレッシュトークンの有効期限
@@ -455,6 +479,14 @@ public class Accessor implements Cloneable {
      */
     public Number getRefreshExpiresIn() {
         return refreshExpiresIn;
+    }
+
+    /**
+     * This method sets the expiration date of refresh token.
+     * @param expiresIn expiration date of refresh token
+     */
+    protected void setRefreshExpiresIn(Number expiresIn) {
+        this.refreshExpiresIn = expiresIn;
     }
 
     // /**
@@ -621,7 +653,7 @@ public class Accessor implements Cloneable {
      * This method sets the access type.
      * @param accessType the accessType to set
      */
-    public void setAccessType(String accessType) {
+    protected void setAccessType(String accessType) {
         this.accessType = accessType;
     }
 
@@ -633,7 +665,7 @@ public class Accessor implements Cloneable {
      * This method gets the access type "self", "client", etc.
      * @return access type
      */
-    String getAccessType() {
+    protected String getAccessType() {
         return this.accessType;
     }
 
@@ -726,7 +758,7 @@ public class Accessor implements Cloneable {
      * This method gets the response headers retrieved from the server response.
      * @return Response Headers
      */
-    public HashMap<String, String> getResHeaders() {
+    HashMap<String, String> getResHeaders() {
         return this.resHeaders;
     }
 

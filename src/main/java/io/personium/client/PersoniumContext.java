@@ -55,7 +55,7 @@ public class PersoniumContext {
 
     // /** デフォルトリクエストヘッダ. */
     /** Default Headers. */
-    HashMap<String, String> defaultHeaders = new HashMap<String, String>();
+    protected HashMap<String, String> defaultHeaders = new HashMap<String, String>();
 
     // /**
     // * バージョン情報を指定するヘッダ.
@@ -375,7 +375,7 @@ public class PersoniumContext {
      * This method sets the HttpClien object.
      * @param value HttpClient object
      */
-    public final void setHttpClient(final HttpClient value) {
+    final void setHttpClient(final HttpClient value) {
         config.setHttpClient(value);
     }
 
