@@ -16,7 +16,7 @@
  */
 package io.personium.client;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
@@ -162,7 +162,7 @@ public abstract class AbstractODataContext implements ILinkageResource {
      * @return The value of header based on the key
      */
     public String getHeaderValue(String headerKey) {
-        HashMap<String, String> resHeaders = this.accessor.getResHeaders();
+        Map<String, String> resHeaders = this.accessor.getResHeaders();
         return resHeaders.get(headerKey);
     }
 

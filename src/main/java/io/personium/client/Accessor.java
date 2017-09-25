@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -758,7 +759,7 @@ public class Accessor implements Cloneable {
      * This method gets the response headers retrieved from the server response.
      * @return Response Headers
      */
-    HashMap<String, String> getResHeaders() {
+    Map<String, String> getResHeaders() {
         return this.resHeaders;
     }
 
