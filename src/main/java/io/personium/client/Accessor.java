@@ -777,7 +777,7 @@ public class Accessor implements Cloneable {
         // targetのURLを作る
         /** Create Target URL. */
         if (this.targetCellName != null) {
-            requestBody.append("&cell_target=");
+            requestBody.append("&p_target=");
             if (UrlUtils.isUrl(this.targetCellName)) {
                 requestBody.append(this.targetCellName);
             } else {
@@ -795,7 +795,7 @@ public class Accessor implements Cloneable {
             schemaRequestBody.append(this.schemaUserId);
             schemaRequestBody.append("&password=");
             schemaRequestBody.append(this.schemaPassword);
-            schemaRequestBody.append("&cell_target=");
+            schemaRequestBody.append("&p_target=");
             schemaRequestBody.append(authUrl);
             // Urlでない場合は、BaseURLにスキーマ名を足す
             /** If this is not the Url, add the schema name to BaseURL. */
