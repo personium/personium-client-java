@@ -50,12 +50,6 @@ public class Accessor implements Cloneable {
 
     // /// Accessor 内部で使用するフィールド
     // /** asメソッドに利用する type. */
-    /** Final variable for holding key for SELF. */
-    public static final String KEY_SELF = "self";
-    // /** asメソッドに利用する type. */
-    /** Final variable for holding key for CLIENT. */
-    public static final String KEY_CLIENT = "client";
-    // /** asメソッドに利用する type. */
     /** Final variable for holding key for TOKEN. */
     public static final String KEY_TOKEN = "token";
 
@@ -80,8 +74,8 @@ public class Accessor implements Cloneable {
     private JSONObject schemaAuth;
 
     // /// クライアントから渡されるフィールド
-    // /** "self","client"等のタイプを保持. */
-    /** Holds the type of self "," client ", etc. */
+    // /** "token"等のタイプを保持. */
+    /** Holds the type of "token", etc. */
     private String accessType = "";
     // /** Cellの名前. */
     /** Authorised cell URL. */
@@ -659,11 +653,11 @@ public class Accessor implements Cloneable {
     }
 
     // /**
-    // * "self","client"等のタイプを返却.
+    // * "token"等のタイプを返却.
     // * @return タイプ
     // */
     /**
-     * This method gets the access type "self", "client", etc.
+     * This method gets the access type "token", etc.
      * @return access type
      */
     protected String getAccessType() {
@@ -774,9 +768,8 @@ public class Accessor implements Cloneable {
     protected void certification() throws DaoException {
 
         // アクセスタイプがselfかクライアントの場合は、認証処理は行わない
-        /** If the access type of client or self, then authentication process is not performed. */
-        if (this.accessType.equals(Accessor.KEY_CLIENT) || this.accessType.equals(Accessor.KEY_SELF)
-                || this.accessType.equals(Accessor.KEY_TOKEN)) {
+        /** If the access type is "token", then authentication process is not performed. */
+        if (this.accessType.equals(Accessor.KEY_TOKEN)) {
             return;
         }
 
