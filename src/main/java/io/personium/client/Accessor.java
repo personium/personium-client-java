@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,12 +50,6 @@ public class Accessor implements Cloneable {
 
     // /// Accessor 内部で使用するフィールド
     // /** asメソッドに利用する type. */
-    /** Final variable for holding key for SELF. */
-    public static final String KEY_SELF = "self";
-    // /** asメソッドに利用する type. */
-    /** Final variable for holding key for CLIENT. */
-    public static final String KEY_CLIENT = "client";
-    // /** asメソッドに利用する type. */
     /** Final variable for holding key for TOKEN. */
     public static final String KEY_TOKEN = "token";
 
@@ -79,8 +74,8 @@ public class Accessor implements Cloneable {
     private JSONObject schemaAuth;
 
     // /// クライアントから渡されるフィールド
-    // /** "self","client"等のタイプを保持. */
-    /** Holds the type of self "," client ", etc. */
+    // /** "token"等のタイプを保持. */
+    /** Holds the type of "token", etc. */
     private String accessType = "";
     // /** Cellの名前. */
     /** Authorised cell URL. */
@@ -104,7 +99,7 @@ public class Accessor implements Cloneable {
 
     // /** 対象Cellの名前. */
     /** Cell name. */
-    private String targetCellName;
+    protected String targetCellName;
 
     // /** トランスセルトークン. */
     /** Transformer cell token. */
@@ -353,7 +348,7 @@ public class Accessor implements Cloneable {
      * This method sets the global access token.
      * @param token Access Token
      */
-    void setAccessToken(String token) {
+    protected void setAccessToken(String token) {
         this.accessToken = token;
     }
 
@@ -373,7 +368,7 @@ public class Accessor implements Cloneable {
      * This method returns the PersoniumContext object.
      * @return PersoniumContext
      */
-    PersoniumContext getContext() {
+    protected PersoniumContext getContext() {
         return this.context;
     }
 
@@ -421,6 +416,14 @@ public class Accessor implements Cloneable {
         return this.expiresIn;
     }
 
+    /**
+     * This method sets the expiration value of token.
+     * @param expiresIn Expiration date of the token
+     */
+    protected void setExpiresIn(Number expiresIn) {
+        this.expiresIn = expiresIn;
+    }
+
     // /**
     // * リフレッシュトークンの設定.
     // * @return リフレッシュトークン
@@ -431,6 +434,14 @@ public class Accessor implements Cloneable {
      */
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    /**
+     * This method sets the refresh token value.
+     * @param token Refresh token value
+     */
+    protected void setRefreshToken(String token) {
+        this.refreshToken = token;
     }
 
     // /**
@@ -445,6 +456,14 @@ public class Accessor implements Cloneable {
         return tokenType;
     }
 
+    /**
+     * This method sets the token type.
+     * @param type token type
+     */
+    protected void setTokenType(String type) {
+        this.tokenType = type;
+    }
+
     // /**
     // * リフレッシュトークンの有効期限の取得.
     // * @return リフレッシュトークンの有効期限
@@ -455,6 +474,14 @@ public class Accessor implements Cloneable {
      */
     public Number getRefreshExpiresIn() {
         return refreshExpiresIn;
+    }
+
+    /**
+     * This method sets the expiration date of refresh token.
+     * @param expiresIn expiration date of refresh token
+     */
+    protected void setRefreshExpiresIn(Number expiresIn) {
+        this.refreshExpiresIn = expiresIn;
     }
 
     // /**
@@ -621,19 +648,19 @@ public class Accessor implements Cloneable {
      * This method sets the access type.
      * @param accessType the accessType to set
      */
-    public void setAccessType(String accessType) {
+    protected void setAccessType(String accessType) {
         this.accessType = accessType;
     }
 
     // /**
-    // * "self","client"等のタイプを返却.
+    // * "token"等のタイプを返却.
     // * @return タイプ
     // */
     /**
-     * This method gets the access type "self", "client", etc.
+     * This method gets the access type "token", etc.
      * @return access type
      */
-    String getAccessType() {
+    protected String getAccessType() {
         return this.accessType;
     }
 
@@ -726,7 +753,7 @@ public class Accessor implements Cloneable {
      * This method gets the response headers retrieved from the server response.
      * @return Response Headers
      */
-    public HashMap<String, String> getResHeaders() {
+    Map<String, String> getResHeaders() {
         return this.resHeaders;
     }
 
@@ -741,9 +768,8 @@ public class Accessor implements Cloneable {
     protected void certification() throws DaoException {
 
         // アクセスタイプがselfかクライアントの場合は、認証処理は行わない
-        /** If the access type of client or self, then authentication process is not performed. */
-        if (this.accessType.equals(Accessor.KEY_CLIENT) || this.accessType.equals(Accessor.KEY_SELF)
-                || this.accessType.equals(Accessor.KEY_TOKEN)) {
+        /** If the access type is "token", then authentication process is not performed. */
+        if (this.accessType.equals(Accessor.KEY_TOKEN)) {
             return;
         }
 
