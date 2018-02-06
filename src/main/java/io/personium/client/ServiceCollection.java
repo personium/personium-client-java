@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import io.personium.client.http.PersoniumRequestBuilder;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
 import io.personium.client.utils.UrlUtils;
@@ -97,10 +98,11 @@ public class ServiceCollection extends PersoniumCollection {
      * @param method HTTP Request Method
      * @param name Service name to be executed
      * @param body HTTP Request Body
-     * @return HttpResponse object
+     * @param contentType CONTENT-TYPE value
+     * @return PersoniumResponse object
      */
-    public HttpResponse call(String method, String name, String body) {
-        return this.call(method, name, body, null);
+    public PersoniumResponse call(String method, String name, String body, String contentType) {
+        return this.call(method, name, body, null, contentType);
     }
 
     // /**
@@ -117,12 +119,14 @@ public class ServiceCollection extends PersoniumCollection {
      * @param name Service name to be executed
      * @param body HTTP Request Body
      * @param headers header map key value pair
-     * @return HttpResponse object
+     * @param contentType CONTENT-TYPE value
+     * @return PersoniumResponse object
      */
-    public HttpResponse call(String method, String name, String body, Map<String, String> headers) {
+    public PersoniumResponse call(String method, String name, String body, Map<String, String> headers, String contentType) {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
         String url = UrlUtils.append(this.getPath(), name);
-        PersoniumRequestBuilder drb = new PersoniumRequestBuilder().url(url).method(method).token(this.accessor.getAccessToken());
+        PersoniumRequestBuilder drb = new PersoniumRequestBuilder().url(url).method(method).contentType(contentType)
+                .token(this.accessor.getAccessToken());
 
         /** add the headers to request builder */
         if (headers != null && headers.size() > 0) {
@@ -146,7 +150,7 @@ public class ServiceCollection extends PersoniumCollection {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return response;
+        return new PersoniumResponse(response);
     }
 
     // /**
