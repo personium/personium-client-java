@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,24 +21,17 @@ import java.util.HashMap;
 import org.json.simple.JSONObject;
 
 import io.personium.client.http.IRestAdapter;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
 
-///**
-// * Event登録のためのクラス.
-// */
 /**
  * It creates a new object of EventManager. This class performs the CRUD operations for Event object.
  */
 public class EventManager {
-    // /** アクセス主体. */
     /** Reference to Accessor. */
     Accessor accessor;
 
-    // /**
-    // * コンストラクタ.
-    // * @param as アクセス主体
-    // */
     /**
      * This is the parameterized constructor with one argument initializing the accessor.
      * @param as Accessor
@@ -47,11 +40,6 @@ public class EventManager {
         this.accessor = as.clone();
     }
 
-    // /**
-    // * イベントを登録.
-    // * @param obj Eventオブジェクト
-    // * @throws DaoException DAO例外
-    // */
     /**
      * This method is used to register the event using Event object.
      * @param obj Event object
@@ -60,123 +48,88 @@ public class EventManager {
     @SuppressWarnings("unchecked")
     public void post(Event obj) throws DaoException {
         JSONObject body = new JSONObject();
-        body.put("level", obj.getLevel());
-        body.put("action", obj.getAction());
-        body.put("object", obj.getObject());
-        body.put("result", obj.getResult());
+        body.put("Type", obj.getType());
+        body.put("Object", obj.getObject());
+        body.put("Info", obj.getInfo());
         this.post(body);
     }
 
-    // /**
-    // * イベントを登録します.
-    // * @param body 登録するJSONオブジェクト
-    // * @throws DaoException DAO例外
-    // */
     /**
      * This method is used to register the event using request body.
      * @param body Request Body
+     * @return PersoniumResponse
      * @throws DaoException Exception thrown
      */
-    public void post(JSONObject body) throws DaoException {
-        this.post(body, null);
+    public PersoniumResponse post(JSONObject body) throws DaoException {
+        return this.post(body, null);
     }
 
-    // /**
-    // * イベントを登録します.
-    // * @param body 登録するJSONオブジェクト
-    // * @param dcRequestKey X-Personium-RequestKeyヘッダの値
-    // * @throws DaoException DAO例外
-    // */
     /**
      * This method is used to register the event using request body.
      * @param body Request Body
      * @param dcRequestKey X-Personium-RequestKey header
+     * @return PersoniumResponse
      * @throws DaoException Exception thrown
      */
-    public void post(JSONObject body, String dcRequestKey) throws DaoException {
+    public PersoniumResponse post(JSONObject body, String dcRequestKey) throws DaoException {
         String url = this.getEventUrl();
         IRestAdapter rest = RestAdapterFactory.create(accessor);
         HashMap<String, String> header = new HashMap<String, String>();
         if (dcRequestKey != null) {
             header.put("X-Personium-RequestKey", dcRequestKey);
         }
-        rest.post(url, header, JSONObject.toJSONString(body), RestAdapter.CONTENT_TYPE_JSON);
+        return rest.post(url, header, JSONObject.toJSONString(body), RestAdapter.CONTENT_TYPE_JSON);
     }
 
-    // /**
-    // * イベントを登録します.
-    // * @param level ログ出力レベル
-    // * @param action イベントのアクション
-    // * @param object イベントの対象オブジェクト
-    // * @param result イベントの結果
-    // * @throws DaoException DAO例外
-    // */
     /**
-     * This method is used to register the event using level, action, object and result.
-     * @param level Log Output Level
-     * @param action Action Events
+     * This method is used to register the event using type, object and info.
+     * @param type Type Event
      * @param object Object Event
-     * @param result Result Event
+     * @param info Info Event
      * @throws DaoException Exception thrown
      */
-    public void post(String level, String action, String object, String result) throws DaoException {
-        JSONObject body = makeLogBody(level, action, object, result);
+    public void post(String type, String object, String info) throws DaoException {
+        JSONObject body = makeLogBody(type, object, info);
         this.post(body, null);
     }
 
-    // /**
-    // * イベントを登録します.
-    // * @param level ログ出力レベル
-    // * @param action イベントのアクション
-    // * @param object イベントの対象オブジェクト
-    // * @param result イベントの結果
-    // * @param dcRequestKey X-Personium-RequestKeyヘッダの値
-    // * @throws DaoException DAO例外
-    // */
     /**
-     * This method is used to register the event using level, action, object, result and dcRequestKey.
-     * @param level Log Output Level
-     * @param action Action Events
+     * This method is used to register the event using type, object, info and dcRequestKey.
+     * @param type Type Events
      * @param object Object Event
-     * @param result Result Event
+     * @param info Info Event
      * @param dcRequestKey X-Personium-RequestKey Header
      * @throws DaoException Exception thrown
      */
-    public void post(String level, String action, String object, String result, String dcRequestKey)
+    public void post(String type, String object, String info, String dcRequestKey)
             throws DaoException {
-        JSONObject body = makeLogBody(level, action, object, result);
+        JSONObject body = makeLogBody(type, object, info);
         this.post(body, dcRequestKey);
     }
 
-    // /**
-    // * イベント登録のリクエストURLを返却します.
-    // * @return URL
-    // */
     /**
      * This method generates and returns the Event URL.
      * @return URL value
      */
     protected String getEventUrl() {
         StringBuilder sb = new StringBuilder(this.accessor.getCurrentCell().getUrl());
-        sb.append("__event/");
+        sb.append("__event");
         return sb.toString();
     }
 
     /**
      * This method creates Log Body in the form of JSONObject.
-     * @param level Log Output Level
-     * @param action Action Events
+     * @param type Type Events
      * @param object Object Event
-     * @param result Result Event
+     * @param info Info Event
      * @return
      */
     @SuppressWarnings("unchecked")
-    private JSONObject makeLogBody(String level, String action, String object, String result) {
+    private JSONObject makeLogBody(String type, String object, String info) {
         JSONObject body = new JSONObject();
-        body.put("level", level);
-        body.put("action", action);
-        body.put("object", object);
-        body.put("result", result);
+        body.put("Type", type);
+        body.put("Object", object);
+        body.put("Info", info);
         return body;
     }
 
