@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -286,7 +286,8 @@ public class RestAdapter implements IRestAdapter {
      * @return DcResponse object
      * @throws DaoException Exception thrown
      */
-    public PersoniumResponse putStream(String url, String contentType, InputStream is, String etag) throws DaoException {
+    public PersoniumResponse putStream(String url, String contentType, InputStream is, String etag)
+            throws DaoException {
         HttpUriRequest req = new PersoniumRequestBuilder().url(url).method(HttpMethods.PUT).contentType(contentType)
                 .ifMatch(etag).body(is).token(getToken()).defaultHeaders(this.accessor.getDefaultHeaders()).build();
         return this.request(req);
@@ -310,7 +311,8 @@ public class RestAdapter implements IRestAdapter {
      * @return DcResponse object
      * @throws DaoException Exception thrown
      */
-    public PersoniumResponse post(String url, String data, String contentType, Boolean needAuthorization) throws DaoException {
+    public PersoniumResponse post(String url, String data, String contentType, Boolean needAuthorization)
+            throws DaoException {
         String token = null;
         if (needAuthorization) {
             token = getToken();
@@ -389,7 +391,8 @@ public class RestAdapter implements IRestAdapter {
      * @throws DaoException Exception thrown
      */
     public PersoniumResponse merge(String url, String data, String etag, String contentType) throws DaoException {
-        HttpUriRequest req = new PersoniumRequestBuilder().url(url).method("MERGE").contentType(contentType).ifMatch(etag)
+        HttpUriRequest req =
+                new PersoniumRequestBuilder().url(url).method("MERGE").contentType(contentType).ifMatch(etag)
                 .body(data).token(getToken()).defaultHeaders(this.accessor.getDefaultHeaders()).build();
         return this.request(req);
     }
@@ -439,7 +442,8 @@ public class RestAdapter implements IRestAdapter {
      * @throws DaoException Library Exception
      */
     public PersoniumResponse del(String url, Map<String, String> headers) throws DaoException {
-        PersoniumRequestBuilder requestBuilder = new PersoniumRequestBuilder().url(url).method(HttpMethods.DELETE).token(getToken())
+        PersoniumRequestBuilder requestBuilder =
+                new PersoniumRequestBuilder().url(url).method(HttpMethods.DELETE).token(getToken())
                 .defaultHeaders(this.accessor.getDefaultHeaders());
         /** add the headers to request builder. */
         if (headers != null && headers.size() > 0) {
@@ -675,7 +679,8 @@ public class RestAdapter implements IRestAdapter {
      * @throws DaoException Library Exception
      */
     public PersoniumResponse mkcol(String url, InputStream requestBody, String contentType) throws DaoException {
-        PersoniumRequestBuilder requestBuilder = new PersoniumRequestBuilder().url(url).method("MKCOL").contentType(contentType)
+        PersoniumRequestBuilder requestBuilder =
+                new PersoniumRequestBuilder().url(url).method("MKCOL").contentType(contentType)
                 .body(requestBody).token(getToken()).defaultHeaders(this.accessor.getDefaultHeaders());
         HttpUriRequest req = requestBuilder.build();
         return this.request(req);

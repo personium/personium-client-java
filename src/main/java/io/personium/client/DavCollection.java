@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -663,7 +663,8 @@ public class DavCollection extends PersoniumCollection {
         }
         InputStream is = new ByteArrayInputStream(bs);
         String url = UrlUtils.append(this.getPath(), pathValue);
-        PersoniumResponse res = ((RestAdapter) RestAdapterFactory.create(this.accessor)).putStream(url, contentType, is, etag);
+        PersoniumResponse res =
+                ((RestAdapter) RestAdapterFactory.create(this.accessor)).putStream(url, contentType, is, etag);
         WebDAV webDAV = new WebDAV();
         webDAV.setResHeaders(res.getHeaderList());
         webDAV.setStatusCode(res.getStatusCode());
