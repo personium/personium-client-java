@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,14 +50,16 @@ public interface IRestAdapter {
     // /** MKCol用リクエストボディ. */
     /** MKCol for the request body. */
     String REQUEST_BODY_MKCOL_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
-            + "</D:resourcetype></D:prop></D:set></D:mkcol>";
+            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\">"
+            + "<D:set><D:prop><D:resourcetype><D:collection/></D:resourcetype></D:prop></D:set>"
+            + "</D:mkcol>";
 
     // /** MKOData用リクエストボディ. */
     /** MKOData for the request body. */
     String REQUEST_BODYMKODATA_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\"><D:set><D:prop><D:resourcetype><D:collection/>"
-            + "<p:odata/></D:resourcetype></D:prop></D:set></D:mkcol>";
+            + "<D:mkcol xmlns:D=\"DAV:\" xmlns:p=\"urn:x-personium:xmlns\">"
+            + "<D:set><D:prop><D:resourcetype><D:collection/><p:odata/></D:resourcetype></D:prop></D:set>"
+            + "</D:mkcol>";
 
     // /** サービスコレクション用リクエストボディ. */
     /** Collection services for the request body. */
@@ -261,7 +263,8 @@ public interface IRestAdapter {
      * @return DcResponse object
      * @throws DaoException Exception thrown
      */
-    PersoniumResponse post(String url, HashMap<String, String> map, String data, String contentType) throws DaoException;
+    PersoniumResponse post(String url, HashMap<String, String> map, String data, String contentType)
+            throws DaoException;
 
     // /**
     // * DELETEメソッド.

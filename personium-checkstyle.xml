@@ -74,7 +74,6 @@
 		<module name="InnerAssignment" />
 		<module name="MagicNumber" />
 		<module name="MissingSwitchDefault" />
-		<module name="RedundantThrows" />
 		<module name="SimplifyBooleanExpression" />
 		<module name="SimplifyBooleanReturn" />
 		<module name="DesignForExtension">
@@ -120,7 +119,7 @@
 		<property name="format" value="　" />
 		<property name="message" value="Invalid character used." />
 	</module>
-	<module name="Header">
+	<module name="RegexpHeader">
 		<property name="headerFile" value="${project_loc}/checkstyle.header" />
 		<property name="fileExtensions" value="java" />
 	</module>

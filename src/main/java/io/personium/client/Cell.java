@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -333,17 +333,6 @@ public class Cell extends AbstractODataContext {
         rest.proppatch(this.getUrl(), "p:ownerRepresentativeAccounts", sb.toString());
     }
 
-    // /**
-    // * Boxへアクセスするためのクラスを生成して返します。 Accessorがスキーマ認証済みである場合はその認証されたスキーマに対応するBoxを、
-    // * そうでない場合は、このセルのDcContexｔに指定されたスキーマのＢｏｘを返します. 該当するＢｏｘが存在しないときは、例外をスローします。 例外:
-    // * <ul>
-    // * <li>スキーマ認証済みで対応するBoxが存在しない場合。</li>
-    // * <li>スキーマ認証なしでpersoniumContextにスキーマが定義されていない場合。</li>
-    // * <li>スキーマ認証なしでpersoniumContextに定義されたスキーマに対応するＢｏｘが見つからない場合。</li>
-    // * </ul>
-    // * @return 生成したBoxインスタンス
-    // * @throws DaoException DAO例外
-    // */
     /**
      * It creates and returns the class to access the Box. The Box corresponding to the schema that has been
      * authenticated if Accessor is a schema authenticated, Otherwise, it returns a Box of schema that is specified in
@@ -351,13 +340,12 @@ public class Cell extends AbstractODataContext {
      * <ul>
      * <li>If the Box the corresponding schema authenticated does not exist.</li>
      * <li>If the schema is not defined in the personiumContext without authentication schema.</li>
-     * <li>If the Box that corresponds to the schema defined in the personiumContext without authentication schema can not be
-     * found.</li>
+     * <li>If the Box that corresponds to the schema defined in the personiumContext without authentication schema
+     * can not be found.</li>
      * </ul>
      * @return Box object
      * @throws DaoException Exception thrown
      */
-    // CHECKSTYLE:ON
     public Box box() throws DaoException {
         /** obtain schemaUrl */
         PersoniumContext context = this.accessor.getContext();
@@ -365,8 +353,8 @@ public class Cell extends AbstractODataContext {
         String schemaUrlFromContext = context.getBoxSchema();
 
         /**
-         * If the URL of this Cell equals to the one set in the personiumContext, return the box configured in the personiumContext
-         * without the following URL discovery process.
+         * If the URL of this Cell equals to the one set in the personiumContext,
+         * return the box configured in the personiumContext without the following URL discovery process.
          */
         String cellUrl = this.getUrl();
         if (cellUrl != null && cellUrl.equals(context.getCellUrl())) {
