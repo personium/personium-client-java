@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,12 +36,6 @@ public class Box extends DavCollection implements ILinkageResource {
     /** Schema Name. */
     private String schema;
 
-    // CHECKSTYLE:OFF
-    // /** boxレベルEventへアクセスするためのクラス. */
-    /** Class to access the box level Event. */
-    public EventManagerForBox event;
-    // CHECKSTYLE:ON
-
     // /** Roleとのリンクマネージャ. */
     /** Link manager of the Role. */
     public ODataLinkManager role;
@@ -74,7 +68,6 @@ public class Box extends DavCollection implements ILinkageResource {
         this.name = (String) json.get("Name");
         this.schema = (String) json.get("Schema");
         this.acl = new AclManager(as, this);
-        this.event = new EventManagerForBox(as);
         this.role = new ODataLinkManager(as, this);
     }
 
@@ -100,7 +93,6 @@ public class Box extends DavCollection implements ILinkageResource {
         this.schema = schemaValue;
 
         this.acl = new AclManager(accessor, this);
-        this.event = new EventManagerForBox(accessor);
         this.role = new ODataLinkManager(as, this);
     }
 
