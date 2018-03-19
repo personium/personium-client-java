@@ -311,7 +311,7 @@ public class Acl {
 
         // 子Aceのリストを取得
         /** Get a list of child Ace. */
-        NodeList nl = document.getElementsByTagNameNS(nsD, "ace");
+        NodeList nl = elmAcl.getElementsByTagNameNS(nsD, "ace");
         Ace ace = null;
         Element elmAce = null;
         for (int i = 0; i < nl.getLength(); i++) {
