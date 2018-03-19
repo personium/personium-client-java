@@ -120,18 +120,8 @@ public class AclManager {
      * @throws DaoException Exception thrown
      */
     public Acl get() throws DaoException {
-        return get("0");
-    }
-
-    /**
-     * This method gets ACL information as ACL object.
-     * @param depth Depth header
-     * @return Acl object
-     * @throws DaoException Exception thrown
-     */
-    public Acl get(String depth) throws DaoException {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(accessor);
-        PersoniumResponse res = rest.propfind(this.getUrl(), depth);
+        PersoniumResponse res = rest.propfind(this.getUrl(), "0");
         return Acl.parse(res.bodyAsString());
     }
 
