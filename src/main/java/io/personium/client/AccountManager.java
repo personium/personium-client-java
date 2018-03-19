@@ -30,7 +30,7 @@ public class AccountManager extends ODataManager {
 
     // /** パスワード用ヘッダーキー. */
     /** Password for header key. */
-    private static final String HEADER_KEY_CREDENTIAL = "X-Dc-Credential";
+    private static final String HEADER_KEY_CREDENTIAL = "X-Personium-Credential";
 
     // /**
     // * コンストラクタ.
