@@ -332,11 +332,11 @@ public class Acl {
             elmAce = (Element) nl.item(i);
             NodeList nodeList = elmAce.getElementsByTagNameNS(nsD, "href");
             if (nodeList.getLength() == 0) {
-                if (elmAce.hasAttributeNS(nsD, "all")) {
+                if (elmAce.getElementsByTagNameNS(nsD, "all").getLength() > 0) {
                     ace.setPrincipal(Principal.ALL);
-                } else if (elmAce.hasAttributeNS(nsD, "authenticated")) {
+                } else if (elmAce.getElementsByTagNameNS(nsD, "authenticated").getLength() > 0) {
                     ace.setPrincipal(Principal.AUTHENTICATED);
-                } else if (elmAce.hasAttributeNS(nsD, "unauthenticated")) {
+                } else if (elmAce.getElementsByTagNameNS(nsD, "unauthenticated").getLength() > 0) {
                     ace.setPrincipal(Principal.UNAUTHENTICATED);
                 }
             } else {
