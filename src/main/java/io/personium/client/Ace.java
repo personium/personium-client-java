@@ -28,8 +28,6 @@ public class Ace {
     Principal principal;
     /** Granted Privileges List for this Ace. */
     List<String> privilegeList;
-    /** Role Name. @deprecated */
-    String roleName;
 
     /**
      * This is the default constructor calling its parent constructor and initializing the privilegeList.
@@ -37,16 +35,6 @@ public class Ace {
     public Ace() {
         super();
         this.privilegeList = new ArrayList<String>();
-    }
-
-    /**
-     * This method gets Principal of this Ace in the form of Role. It will throw ClassCastException if the principal is
-     * not a role.
-     * @deprecated Replaced with {@link #getPrincipal()}
-     * @return Role Object
-     */
-    public Role getRole() {
-        return (Role) this.principal;
     }
 
     /**
@@ -58,63 +46,11 @@ public class Ace {
     }
 
     /**
-     * This method sets the Principal (typically a role) of this Ace in the form of Role.
-     * @param role Role Object.
-     * @deprecated Replaced with {@link #setPrincipal(Principal)}
-     */
-    public void setRole(Role role) {
-        this.setPrincipal(role);
-    }
-
-    /**
-     * This method takes Principal All as parameter.
-     * @param principalAll Principal All
-     * @deprecated
-     */
-    public void setRole(boolean principalAll) {
-    }
-
-    /**
      * This method sets the Principal (typically a role in PCS) for this Ace.
      * @param principal instance of principal
      */
     public void setPrincipal(Principal principal) {
         this.principal = principal;
-    }
-
-    /**
-     * This method gets the Role Name.
-     * @return Role Name
-     * @deprecated
-     */
-    public String getRoleName() {
-        if (this.principal != null) {
-            return ((Role) this.principal).getName();
-        } else {
-            return this.roleName;
-        }
-    }
-
-    /**
-     * This method gets the _Box.Name value of the Role for this Ace.
-     * @return the _Box.Name value of the Role
-     * @deprecated
-     */
-    public String getBoxName() {
-        if (this.principal != null) {
-            return ((Role) this.principal).getBoxName();
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * This method sets Role Name.
-     * @deprecated
-     * @param value Role Name
-     */
-    public void setRoleName(String value) {
-        this.roleName = value;
     }
 
     /**
