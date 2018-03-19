@@ -29,8 +29,8 @@ import org.w3c.dom.NodeList;
 
 import io.personium.client.http.CacheEntry;
 import io.personium.client.http.CacheMap;
-import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.IRestAdapter;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
 import io.personium.client.utils.UrlUtils;
@@ -176,7 +176,7 @@ public class DavCollection extends PersoniumCollection {
         ArrayList<String> folderList = new ArrayList<String>();
         ArrayList<String> fileList = new ArrayList<String>();
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        PersoniumResponse res = rest.propfind(this.url.toString());
+        PersoniumResponse res = rest.propfind(this.url.toString(), "1");
         Document doc = res.bodyAsXml();
         NodeList nl = doc.getElementsByTagName("response");
         String name;

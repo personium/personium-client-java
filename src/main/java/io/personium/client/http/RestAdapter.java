@@ -616,15 +616,17 @@ public class RestAdapter implements IRestAdapter {
     // * @return DcResponseオブジェクト
     // * @throws DaoException DAO例外
     // */
+
     /**
      * This is the PROPFIND method.
      * @param url Target URL
+     * @param depth Depth header
      * @return DcResponse object
      * @throws DaoException Exception thrown
      */
-    public PersoniumResponse propfind(String url) throws DaoException {
+    public PersoniumResponse propfind(String url, String depth) throws DaoException {
         HttpUriRequest req = new PersoniumRequestBuilder().url(url).method("PROPFIND").contentType(CONTENT_TYPE_XML)
-                .token(getToken()).accept(CONTENT_TYPE_XML).depth("1")
+                .token(getToken()).accept(CONTENT_TYPE_XML).depth(depth)
                 .defaultHeaders(this.accessor.getDefaultHeaders()).build();
         return this.request(req);
     }
