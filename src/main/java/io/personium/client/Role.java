@@ -140,6 +140,7 @@ public class Role extends AbstractODataContext implements Principal {
      * This method gets the RoleName value.
      * @return RoleName value
      */
+    @Override
     public String getName() {
         return name;
     }

@@ -207,13 +207,13 @@ public class Acl {
 
             Principal principal = ace.getPrincipal();
             if (Principal.ALL == principal) {
-                Element elmHref = document.createElementNS(nsD, "D:all");
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.ALL.getName());
                 elmPrincipal.appendChild(elmHref);
             } else if (Principal.AUTHENTICATED == principal) {
-                Element elmHref = document.createElementNS(nsD, "D:authenticated");
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.AUTHENTICATED.getName());
                 elmPrincipal.appendChild(elmHref);
             } else if (Principal.UNAUTHENTICATED == principal) {
-                Element elmHref = document.createElementNS(nsD, "D:unauthenticated");
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.UNAUTHENTICATED.getName());
                 elmPrincipal.appendChild(elmHref);
             } else {
                 /** acl/ace/principal/href */
@@ -332,11 +332,11 @@ public class Acl {
             elmAce = (Element) nl.item(i);
             NodeList nodeList = elmAce.getElementsByTagNameNS(nsD, "href");
             if (nodeList.getLength() == 0) {
-                if (elmAce.getElementsByTagNameNS(nsD, "all").getLength() > 0) {
+                if (elmAce.getElementsByTagNameNS(nsD, Principal.ALL.getName()).getLength() > 0) {
                     ace.setPrincipal(Principal.ALL);
-                } else if (elmAce.getElementsByTagNameNS(nsD, "authenticated").getLength() > 0) {
+                } else if (elmAce.getElementsByTagNameNS(nsD, Principal.AUTHENTICATED.getName()).getLength() > 0) {
                     ace.setPrincipal(Principal.AUTHENTICATED);
-                } else if (elmAce.getElementsByTagNameNS(nsD, "unauthenticated").getLength() > 0) {
+                } else if (elmAce.getElementsByTagNameNS(nsD, Principal.UNAUTHENTICATED.getName()).getLength() > 0) {
                     ace.setPrincipal(Principal.UNAUTHENTICATED);
                 }
             } else {

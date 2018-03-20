@@ -142,7 +142,7 @@ public class CellManager extends ODataManager {
     public PersoniumResponse recursiveDelete(String cellName) throws DaoException {
         String url = this.getBaseUrl() + Utils.escapeURI(cellName);
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("X-Dc-Recursive", "true");
+        headers.put("X-Personium-Recursive", "true");
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
         return rest.del(url, headers);
     }
