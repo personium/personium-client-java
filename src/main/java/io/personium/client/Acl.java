@@ -205,17 +205,24 @@ public class Acl {
             Element elmPrincipal = document.createElementNS(nsD, "D:principal");
             elmAce.appendChild(elmPrincipal);
 
-            if (ace.getPrincipal() == Principal.ALL) {
-                Element elmHref = document.createElementNS(nsD, "D:all");
+            Principal principal = ace.getPrincipal();
+            if (Principal.ALL == principal) {
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.ALL.getName());
+                elmPrincipal.appendChild(elmHref);
+            } else if (Principal.AUTHENTICATED == principal) {
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.AUTHENTICATED.getName());
+                elmPrincipal.appendChild(elmHref);
+            } else if (Principal.UNAUTHENTICATED == principal) {
+                Element elmHref = document.createElementNS(nsD, "D:" + Principal.UNAUTHENTICATED.getName());
                 elmPrincipal.appendChild(elmHref);
             } else {
                 /** acl/ace/principal/href */
                 Element elmHref = document.createElementNS(nsD, "D:href");
                 elmPrincipal.appendChild(elmHref);
 
-                if (ace.getPrincipal() != null) {
+                if (principal != null) {
                     /** href string should be relative url. */
-                    Role aceRole = (Role) ace.getPrincipal();
+                    Role aceRole = (Role) principal;
                     String relativeUrl = aceRole.getRelativeUrl(baseRoleBoxName);
 
                     Text text = document.createTextNode(relativeUrl);
@@ -325,7 +332,13 @@ public class Acl {
             elmAce = (Element) nl.item(i);
             NodeList nodeList = elmAce.getElementsByTagNameNS(nsD, "href");
             if (nodeList.getLength() == 0) {
-                ace.setPrincipal(Principal.ALL);
+                if (elmAce.getElementsByTagNameNS(nsD, Principal.ALL.getName()).getLength() > 0) {
+                    ace.setPrincipal(Principal.ALL);
+                } else if (elmAce.getElementsByTagNameNS(nsD, Principal.AUTHENTICATED.getName()).getLength() > 0) {
+                    ace.setPrincipal(Principal.AUTHENTICATED);
+                } else if (elmAce.getElementsByTagNameNS(nsD, Principal.UNAUTHENTICATED.getName()).getLength() > 0) {
+                    ace.setPrincipal(Principal.UNAUTHENTICATED);
+                }
             } else {
                 /** The principal is a Role.. */
                 String roleUrl = nodeList.item(0).getFirstChild().getNodeValue();

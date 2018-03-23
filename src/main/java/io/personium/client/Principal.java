@@ -22,11 +22,29 @@ package io.personium.client;
 public interface Principal {
     /** constant expressing DAV:all pseudo-principal defined in rfc3744#section-5.5.1. */
     Principal ALL = new Principal() {
+        @Override
+        public String getName() {
+            return "all";
+        }
     };
     /** constant expressing DAV:authenticated pseudo-principal defined in rfc3744#section-5.5.1. */
     Principal AUTHENTICATED = new Principal() {
+        @Override
+        public String getName() {
+            return "authenticated";
+        }
     };
     /** constant expressing DAV:unauthenticated pseudo-principal defined in rfc3744#section-5.5.1. */
     Principal UNAUTHENTICATED = new Principal() {
+        @Override
+        public String getName() {
+            return "unauthenticated";
+        }
     };
+
+    /**
+     * Get principal name.
+     * @return principal name.
+     */
+    public String getName();
 }
