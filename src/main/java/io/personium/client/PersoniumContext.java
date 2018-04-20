@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,9 @@ import org.json.simple.parser.JSONParser;
 
 import io.personium.client.http.CacheMap;
 
-///**
-// * Personiumコンテキスト.
-// */
 /**
- * It creates a new object of personiumContext. This class is the Data cloud context used as the package for all the files.
+ * It creates a new object of personiumContext.
+ * This class is the Data cloud context used as the package for all the files.
  */
 public class PersoniumContext {
     // /** 基底URL. */
