@@ -30,6 +30,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.AbstractHttpClient;
 
@@ -644,8 +645,9 @@ public class RestAdapter implements IRestAdapter {
      * @throws DaoException Exception thrown
      */
     private PersoniumResponse request(HttpUriRequest httpReq) throws DaoException {
+        HttpResponse objResponse = null;
         try {
-            HttpResponse objResponse = httpClient.execute(httpReq);
+            objResponse = httpClient.execute(httpReq);
             PersoniumResponse dcRes = new PersoniumResponse(objResponse);
 
             this.accessor.setResHeaders(objResponse.getAllHeaders());
@@ -656,6 +658,8 @@ public class RestAdapter implements IRestAdapter {
             return dcRes;
         } catch (IOException ioe) {
             throw DaoException.create("io exception : " + ioe.getMessage(), 0);
+        } finally {
+            HttpClientUtils.closeQuietly(objResponse);
         }
     }
 
