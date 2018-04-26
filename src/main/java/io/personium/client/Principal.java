@@ -46,5 +46,5 @@ public interface Principal {
      * Get principal name.
      * @return principal name.
      */
-    public String getName();
+    String getName();
 }

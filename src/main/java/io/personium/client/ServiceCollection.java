@@ -122,7 +122,8 @@ public class ServiceCollection extends PersoniumCollection {
      * @param contentType CONTENT-TYPE value
      * @return PersoniumResponse object
      */
-    public PersoniumResponse call(String method, String name, String body, Map<String, String> headers, String contentType) {
+    public PersoniumResponse call(
+            String method, String name, String body, Map<String, String> headers, String contentType) {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
         String url = UrlUtils.append(this.getPath(), name);
         PersoniumRequestBuilder drb = new PersoniumRequestBuilder().url(url).method(method).contentType(contentType)
