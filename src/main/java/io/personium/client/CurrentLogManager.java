@@ -40,9 +40,10 @@ public class CurrentLogManager extends LogManager {
      * This method generates and returns the Log URL for the specified filename.
      * @param filename value
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    protected String getLogUrl(String filename) {
+    protected String getLogUrl(String filename) throws DaoException {
         StringBuilder sb = new StringBuilder(super.accessor.getCurrentCell().getUrl());
         sb.append("__log/current/");
         sb.append(filename);

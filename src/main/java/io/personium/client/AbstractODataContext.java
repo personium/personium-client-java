@@ -185,8 +185,9 @@ public abstract class AbstractODataContext implements ILinkageResource {
     /**
      * This method generates the URL for $link commands.
      * @return URL string.
+     * @throws DaoException DaoException
      */
-    public String makeUrlForLink() {
+    public String makeUrlForLink() throws DaoException {
         StringBuilder sb = new StringBuilder(this.accessor.getCurrentCell().getUrl());
         sb.append("__ctl/");
         sb.append(this.getClassName());

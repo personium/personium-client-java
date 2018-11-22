@@ -46,6 +46,7 @@ public interface IODataManager {
     /**
      * This method generates a URL string.
      * @return URL value
+     * @throws DaoException DaoException
      */
-    String getUrl();
+    String getUrl() throws DaoException;
 }

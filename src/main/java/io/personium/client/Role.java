@@ -36,6 +36,7 @@ public class Role extends AbstractODataContext implements Principal {
     /** _box.name. */
     private String boxname;
 
+    // CHECKSTYLE:OFF
     // /** Accountとのリンクマネージャ. */
     /** Link Manager for Account. */
     public ODataLinkManager account;
@@ -48,6 +49,7 @@ public class Role extends AbstractODataContext implements Principal {
     // /** ExtRoleとのリンクマネージャ. */
     /** Link Manager for ExtRole. */
     public ODataLinkManager extRole;
+    // CHECKSTYLE:ON
 
     // /**
     // * コンストラクタ.
@@ -192,8 +194,9 @@ public class Role extends AbstractODataContext implements Principal {
     /**
      * This method returns the Resource BaseURL for Role.
      * @return RoleResouceURL value
+     * @throws DaoException DaoException
      */
-    public String getResourceBaseUrl() {
+    public String getResourceBaseUrl() throws DaoException {
         StringBuilder sb = new StringBuilder();
         sb.append(this.accessor.getCurrentCell().getUrl());
         sb.append("__role/");

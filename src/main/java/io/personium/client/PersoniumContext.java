@@ -17,6 +17,8 @@
 package io.personium.client;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import org.apache.commons.codec.DecoderException;
@@ -26,6 +28,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import io.personium.client.http.CacheMap;
+import io.personium.client.utils.UrlUtils;
 
 /**
  * It creates a new object of personiumContext.
@@ -37,7 +40,9 @@ public class PersoniumContext {
     private String baseUrl;
     // /** 現在のCellName. */
     /** Cell Name. */
-    private String cellName;
+    private String currentCellName;
+    /** Cell Url. */
+    private String currentCellUrl;
     // /** 現在のBoxのDataSchemaURI. */
     /** DataSchemaURI of the current Box. */
     private String schema;
@@ -50,6 +55,8 @@ public class PersoniumContext {
     // /** サーバーのレスポンスから取得したAPIのバージョン. */
     /** Version of the API that is obtained from the server response. */
     private String serverVersion = null;
+    /** true:Path based cell url. false:FQDN based cell url. */
+    private boolean pathBasedCellUrlEnabled;
 
     // /** デフォルトリクエストヘッダ. */
     /** Default Headers. */
@@ -96,18 +103,21 @@ public class PersoniumContext {
      * @param name Cell Name
      * @param boxSchema Box DataSchemaURI
      * @param bName Box Name
+     * @throws DaoException DaoException
      */
-    public PersoniumContext(final String url, final String name, final String boxSchema, String bName) {
+    public PersoniumContext(final String url, final String name, final String boxSchema, String bName)
+            throws DaoException {
         this.baseUrl = url;
         String c = this.baseUrl.substring(this.baseUrl.length() - 1);
         if (!c.equals("/")) {
             this.baseUrl += "/";
         }
-        this.cellName = name;
+        this.currentCellName = name;
+        this.currentCellUrl = makeCellUrl(name) + "/";
         this.schema = boxSchema;
         this.boxName = bName;
-        if (this.cellName == null) {
-            this.cellName = "";
+        if (this.currentCellName == null) {
+            this.currentCellName = "";
         }
         if (this.schema == null) {
             this.schema = "";
@@ -127,8 +137,8 @@ public class PersoniumContext {
      * This method gets the cell name.
      * @return Cell Name
      */
-    public final String getCellName() {
-        return cellName;
+    public final String getCurrentCellName() {
+        return currentCellName;
     }
 
     // /**
@@ -139,8 +149,8 @@ public class PersoniumContext {
      * This method sets the cell name.
      * @param value Cell Name
      */
-    public final void setCellName(final String value) {
-        this.cellName = value;
+    public final void setCurrentCellName(final String value) {
+        this.currentCellName = value;
     }
 
     // /**
@@ -151,8 +161,8 @@ public class PersoniumContext {
      * This method gets the cell URL.
      * @return CellURL value
      */
-    public final String getCellUrl() {
-        return this.baseUrl + this.cellName + "/";
+    public final String getCurrentCellUrl() {
+        return this.currentCellUrl;
     }
 
     // /**
@@ -398,6 +408,23 @@ public class PersoniumContext {
         this.serverVersion = version;
     }
 
+    /**
+     * Get pathBasedCellUrlEnabled.
+     * true:Path based cell url. false:FQDN based cell url.
+     * @return pathBasedCellUrlEnabled
+     */
+    public final boolean isPathBasedCellUrlEnabled() {
+        return pathBasedCellUrlEnabled;
+    }
+
+    /**
+     * Set pathBasedCellUrlEnabled.
+     * @param pathBasedCellUrlEnabled pathBasedCellUrlEnabled
+     */
+    public void setPathBasedCellUrlEnabled(boolean pathBasedCellUrlEnabled) {
+        this.pathBasedCellUrlEnabled = pathBasedCellUrlEnabled;
+    }
+
     // /**
     // * アクセッサを生成します. リクエストヘッダのトークンを利用し、アクセッサを生成します。
     // * @param cellUrl 認証先Cell
@@ -439,7 +466,7 @@ public class PersoniumContext {
         if (!as.getCellName().equals(cellUrl)) {
             as.setBoxName("");
         }
-        as.setCellName(cellUrl);
+        as.setCell(cellUrl);
         as.setUserId(userId);
         as.setPassword(password);
         as.setDefaultHeaders(this.defaultHeaders);
@@ -465,7 +492,7 @@ public class PersoniumContext {
         if (!as.getCellName().equals(cellUrl)) {
             as.setBoxName("");
         }
-        as.setCellName(cellUrl);
+        as.setCell(cellUrl);
         as.setTransCellToken(token);
         as.setDefaultHeaders(this.defaultHeaders);
         return as;
@@ -513,7 +540,7 @@ public class PersoniumContext {
         if (!as.getCellName().equals(cellUrl)) {
             as.setBoxName("");
         }
-        as.setCellName(cellUrl);
+        as.setCell(cellUrl);
         as.setTransCellRefreshToken(token);
         as.setDefaultHeaders(this.defaultHeaders);
         return as;
@@ -583,7 +610,7 @@ public class PersoniumContext {
         if (!as.getCellName().equals(cellUrl)) {
             as.setBoxName("");
         }
-        as.setCellName(cellUrl);
+        as.setCell(cellUrl);
         as.setUserId(userId);
         as.setPassword(password);
         as.setSchema(schemaUrl);
@@ -623,7 +650,7 @@ public class PersoniumContext {
         if (!as.getCellName().equals(cellUrl)) {
             as.setBoxName("");
         }
-        as.setCellName(cellUrl);
+        as.setCell(cellUrl);
         as.setTransCellToken(token);
         as.setSchema(schemaUrl);
         as.setSchemaUserId(schemaUserId);
@@ -725,5 +752,61 @@ public class PersoniumContext {
      */
     public final void removeDefaultHeader(String key) {
         this.defaultHeaders.remove(key);
+    }
+
+    /**
+     * Make CellURL from argument.
+     * @param cell CellName or CellURL
+     * @return CellURL
+     * @throws DaoException BaseURL is error.
+     */
+    String makeCellUrl(String cell) throws DaoException {
+        if (UrlUtils.isUrl(cell)) {
+            return cell;
+        } else {
+            if (pathBasedCellUrlEnabled) {
+                return UrlUtils.append(baseUrl, cell);
+            } else {
+                URI uri;
+                try {
+                    uri = new URI(baseUrl);
+                } catch (URISyntaxException e) {
+                    throw new DaoException("URISyntaxException", e);
+                }
+                String domain = uri.getHost();
+                StringBuilder hostBuilder = new StringBuilder();
+                hostBuilder.append(cell).append(".").append(domain);
+                String cellUrl = baseUrl.replaceFirst(domain, hostBuilder.toString());
+                if (cellUrl.endsWith("/")) {
+                    cellUrl = cellUrl.substring(0, cellUrl.length() - 1);
+                }
+                return cellUrl;
+            }
+        }
+    }
+
+    /**
+     * Extract CellName from argument.
+     * @param cell CellName or CellURL
+     * @return CellName
+     * @throws DaoException BaseURL is error.
+     */
+    String extractCellName(String cell) throws DaoException {
+        if (UrlUtils.isUrl(cell)) {
+            URI uri;
+            try {
+                uri = new URI(cell);
+            } catch (URISyntaxException e) {
+                throw new DaoException("URISyntaxException", e);
+            }
+            String[] pathSplit = uri.getPath().split("/");
+            if (pathSplit.length <= 1) {
+                return uri.getHost().split("\\.")[0];
+            } else {
+                return pathSplit[1];
+            }
+        } else {
+            return cell;
+        }
     }
 }

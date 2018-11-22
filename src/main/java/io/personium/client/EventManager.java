@@ -110,8 +110,9 @@ public class EventManager {
     /**
      * This method generates and returns the Event URL.
      * @return URL value
+     * @throws DaoException DaoException
      */
-    protected String getEventUrl() {
+    protected String getEventUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(this.accessor.getCurrentCell().getUrl());
         sb.append("__event");
         return sb.toString();

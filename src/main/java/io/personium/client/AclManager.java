@@ -19,7 +19,6 @@ package io.personium.client;
 import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
-import io.personium.client.utils.UrlUtils;
 
 ///**
 // * ACLのCRUDを行うためのクラス.
@@ -33,7 +32,7 @@ public class AclManager {
     /** DAV Collection. */
     PersoniumCollection collection;
 
-    private String cellName;
+    private String cellUrl;
 
     // /**
     // * コンストラクタ.
@@ -54,13 +53,13 @@ public class AclManager {
     // */
     /**
      * This is the parameterized constructor having two parameters initializing the class variable accessor and
-     * cellName.
+     * cellURL.
      * @param as Accessor
-     * @param name Cell Name
+     * @param url Cell URL
      */
-    public AclManager(Accessor as, String name) {
+    public AclManager(Accessor as, String url) {
         this.accessor = as;
-        this.cellName = name;
+        this.cellUrl = url;
     }
 
     // /**
@@ -139,14 +138,7 @@ public class AclManager {
         if (this.collection != null) {
             return this.collection.getPath();
         } else {
-            String url = null;
-            if (UrlUtils.isUrl(this.cellName)) {
-                url = this.cellName;
-            } else {
-                url = UrlUtils.append(accessor.getBaseUrl(), this.cellName);
-            }
-
-            return url;
+            return this.cellUrl;
         }
     }
 }

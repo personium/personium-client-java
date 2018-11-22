@@ -60,6 +60,7 @@ public interface ILinkageResource {
     /**
      * This method is used to create URL for $links.
      * @return URL value
+     * @throws DaoException DaoException
      */
-    String makeUrlForLink();
+    String makeUrlForLink() throws DaoException;
 }

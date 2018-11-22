@@ -39,9 +39,10 @@ public class ExtCellManager extends ODataManager {
     /**
      * This method generates and returns the URL for ExtCell.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(accessor.getCurrentCell().getUrl());
         sb.append("__ctl/ExtCell");
         return sb.toString();

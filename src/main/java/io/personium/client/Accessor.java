@@ -64,6 +64,8 @@ public class Accessor implements Cloneable {
 
     /** Holds the type of "token", etc. */
     private String accessType = "";
+    /** Authorised cell name. */
+    private String authCellName;
     /** Authorised cell URL. */
     private String authCellUrl;
     /** Authentication User ID. */
@@ -79,7 +81,7 @@ public class Accessor implements Cloneable {
     private String schemaPassword;
 
     /** Cell name. */
-    protected String targetCellName;
+    protected String targetCellUrl;
 
     /** Transformer cell token. */
     private String transCellToken;
@@ -116,13 +118,14 @@ public class Accessor implements Cloneable {
     /**
      * This is the parameterized constructor initializing the various class variables.
      * @param personiumContext PersoniumContext
+     * @throws DaoException DaoException
      */
-    public Accessor(PersoniumContext personiumContext) {
+    public Accessor(PersoniumContext personiumContext) throws DaoException {
         this.expiresIn = 0;
         this.refreshExpiresIn = 0;
         this.context = personiumContext;
         this.baseUrl = personiumContext.getBaseUrl();
-        this.authCellUrl = personiumContext.getCellName();
+        setCell(personiumContext.getCurrentCellName());
         this.boxSchema = personiumContext.getBoxSchema();
         this.boxName = personiumContext.getBoxName();
     }
@@ -155,8 +158,8 @@ public class Accessor implements Cloneable {
      * @throws DaoException Exception thrown
      */
     public Cell cell(String cell) throws DaoException {
-        if (!this.authCellUrl.equals(cell)) {
-            this.targetCellName = cell;
+        if (!this.authCellName.equals(cell)) {
+            setTargetCell(cell);
         }
         // Unit昇格時はこのタイミングで認証を行わない
         /** Authentication is not performed. */
@@ -180,10 +183,7 @@ public class Accessor implements Cloneable {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("X-Personium-Credential", newPassword);
         /** Create the URL for password change. */
-        String cellUrl = this.getCellName();
-        if (!UrlUtils.isUrl(cellUrl)) {
-            cellUrl = UrlUtils.append(this.getBaseUrl(), this.getCellName());
-        }
+        String cellUrl = this.getCellUrl();
         String url = UrlUtils.append(cellUrl, "__mypassword");
 
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this);
@@ -370,11 +370,11 @@ public class Accessor implements Cloneable {
     }
 
     /**
-     * This method returns the authorized cell URL.
+     * This method returns the authorized cell name.
      * @return CellName URL
      */
     String getCellName() {
-        return this.authCellUrl;
+        return this.authCellName;
     }
 
     /**
@@ -382,7 +382,33 @@ public class Accessor implements Cloneable {
      * @param name CellName value
      */
     void setCellName(String name) {
-        this.authCellUrl = name;
+        this.authCellName = name;
+    }
+
+    /**
+     * This method returns the authorized cell URL.
+     * @return CellURL value
+     */
+    String getCellUrl() {
+        return this.authCellUrl;
+    }
+
+    /**
+     * This method sets the CellURL value.
+     * @param url CellURL value
+     */
+    void setCellUrl(String url) {
+        this.authCellUrl = url;
+    }
+
+    /**
+     * This method sets the CellInfo.
+     * @param cell CellName or CellURL
+     * @throws DaoException BaseURL is error.
+     */
+    void setCell(String cell) throws DaoException {
+        this.authCellName = context.extractCellName(cell);
+        this.authCellUrl = context.makeCellUrl(cell);
     }
 
     /**
@@ -476,25 +502,35 @@ public class Accessor implements Cloneable {
     /**
      * This method sets the schema.
      * @param schema the schema to set
+     * @throws DaoException DaoException
      */
-    void setSchema(String schema) {
-        this.schema = schema;
+    void setSchema(String schema) throws DaoException {
+        this.schema = context.makeCellUrl(schema);
     }
 
     /**
-     * This method returns the target cell name.
-     * @return the targetCellName
+     * This method returns the target cell url.
+     * @return the targetCellUrl
      */
-    String getTargetCellName() {
-        return targetCellName;
+    String getTargetCellUrl() {
+        return targetCellUrl;
     }
 
     /**
-     * This method sets the target cell name.
-     * @param targetCellName the targetCellName to set
+     * This method sets the target cell url.
+     * @param targetCellUrl the targetCellUrl to set
      */
-    void setTargetCellName(String targetCellName) {
-        this.targetCellName = targetCellName;
+    void setTargetCellUrl(String targetCellUrl) {
+        this.targetCellUrl = targetCellUrl;
+    }
+
+    /**
+     * This method sets the target cell url.
+     * @param targetCell CellName or CellURL
+     * @throws DaoException DaoException
+     */
+    void setTargetCell(String targetCell) throws DaoException {
+        this.targetCellUrl = context.makeCellUrl(targetCell);
     }
 
     /**
@@ -632,13 +668,9 @@ public class Accessor implements Cloneable {
         }
 
         /** Create Target URL. */
-        if (this.targetCellName != null) {
+        if (this.targetCellUrl != null) {
             requestBody.append("&p_target=");
-            if (UrlUtils.isUrl(this.targetCellName)) {
-                requestBody.append(this.targetCellName);
-            } else {
-                requestBody.append(UrlUtils.append(baseUrl, this.targetCellName));
-            }
+            requestBody.append(targetCellUrl);
         }
 
         /** Add the schema information for authentication schema. */
@@ -652,10 +684,6 @@ public class Accessor implements Cloneable {
             schemaRequestBody.append("&p_target=");
             schemaRequestBody.append(authUrl);
             /** If this is not the Url, add the schema name to BaseURL. */
-            if (!UrlUtils.isUrl(this.schema)) {
-                this.schema = UrlUtils.append(baseUrl, this.schema);
-            }
-
             if (!this.schema.endsWith("/")) {
                 this.schema += "/";
             }
@@ -725,10 +753,8 @@ public class Accessor implements Cloneable {
             /** Get the connection destination url from the token. */
             Document doc = trancCellTokenAsXml();
             authUrl = doc.getElementsByTagName("Audience").item(0).getFirstChild().getNodeValue();
-        } else if (UrlUtils.isUrl(this.authCellUrl)) {
-            authUrl = this.authCellUrl;
         } else {
-            authUrl = UrlUtils.append(baseUrl, this.authCellUrl);
+            authUrl = this.authCellUrl;
         }
         return authUrl;
     }
@@ -748,5 +774,4 @@ public class Accessor implements Cloneable {
     protected String loadClientToken() {
         return "";
     }
-
 }

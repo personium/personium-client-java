@@ -40,9 +40,10 @@ public class ArchiveLogManager extends LogManager {
      * This method creates and returns the log URL for the specified file name.
      * @param filename Filename
      * @return URL File URL
+     * @throws DaoException DaoException
      */
     @Override
-    protected String getLogUrl(String filename) {
+    protected String getLogUrl(String filename) throws DaoException {
         StringBuilder sb = new StringBuilder(super.accessor.getCurrentCell().getUrl());
         sb.append("__log/archive/");
         sb.append(filename);
