@@ -22,8 +22,8 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.json.simple.JSONObject;
 
-import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.IRestAdapter;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
 import io.personium.client.utils.UrlUtils;
@@ -42,7 +42,9 @@ public class Cell extends AbstractODataContext {
 
     // /** Cell名. */
     /** Cell Name. */
-    private String name;
+    private String cellName;
+    /** Cell URL. */
+    private String cellUrl;
     /** Location. */
     private String location;
 
@@ -122,7 +124,7 @@ public class Cell extends AbstractODataContext {
      */
     public Cell(Accessor as, String key) throws DaoException {
         super(as);
-        this.name = key;
+        this.cellName = key;
         this.initialize(as, null);
     }
 
@@ -151,18 +153,21 @@ public class Cell extends AbstractODataContext {
      * This method is used to initialize various class variables.
      * @param as Accessor
      * @param json JSON object
+     * @throws DaoException DaoException
      */
-    public void initialize(Accessor as, JSONObject json) {
+    public void initialize(Accessor as, JSONObject json) throws DaoException {
         super.initialize(as);
         if (json != null) {
             this.rawData = json;
-            this.name = (String) json.get("Name");
+            this.cellName = (String) json.get("Name");
             this.location = (String) ((JSONObject) json.get("__metadata")).get("uri");
         }
+        this.cellName = accessor.getContext().extractCellName(cellName);
+        this.cellUrl = accessor.getContext().makeCellUrl(cellName);
         this.accessor.setCurrentCell(this);
         this.relation = new RelationManager(this.accessor);
         this.role = new RoleManager(this.accessor);
-        this.acl = new AclManager(this.accessor, this.name);
+        this.acl = new AclManager(this.accessor, this.cellUrl);
         this.account = new AccountManager(this.accessor);
         this.box = new BoxManager(this.accessor);
         this.boxManager = new BoxManager(this.accessor);
@@ -181,8 +186,8 @@ public class Cell extends AbstractODataContext {
      * This method returns the Cell Name.
      * @return Cell Name value
      */
-    public String getName() {
-        return name;
+    public String getCellName() {
+        return cellName;
     }
 
     // /**
@@ -193,8 +198,8 @@ public class Cell extends AbstractODataContext {
      * This method sets the Cell Name.
      * @param value CellName
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setCellName(String value) {
+        this.cellName = value;
     }
 
     // /**
@@ -204,12 +209,11 @@ public class Cell extends AbstractODataContext {
     /**
      * This method creates and returns the URL for performing Cell related operations.
      * @return CellURL value
+     * @throws DaoException DaoException
      */
-    public String getUrl() {
-        String url = this.name;
-        if (!UrlUtils.isUrl(this.name)) {
-            url = UrlUtils.append(accessor.getBaseUrl(), Utils.escapeURI(this.name) + "/");
-        } else if (!this.name.endsWith("/")) {
+    public String getUrl() throws DaoException {
+        String url = cellUrl;
+        if (!url.endsWith("/")) {
             url = url + "/";
         }
         return url;
@@ -356,8 +360,7 @@ public class Cell extends AbstractODataContext {
          * If the URL of this Cell equals to the one set in the personiumContext,
          * return the box configured in the personiumContext without the following URL discovery process.
          */
-        String cellUrl = this.getUrl();
-        if (cellUrl != null && cellUrl.equals(context.getCellUrl())) {
+        if (cellUrl != null && getUrl().equals(context.getCurrentCellUrl())) {
             return box(context.getBoxName(), context.getBoxSchema());
         }
 
@@ -464,7 +467,7 @@ public class Cell extends AbstractODataContext {
      * @return OData Key
      */
     public String getKey() {
-        return String.format("('%s')", this.name);
+        return String.format("('%s')", this.cellName);
     }
 
     // /**

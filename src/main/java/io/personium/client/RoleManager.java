@@ -42,9 +42,10 @@ public class RoleManager extends ODataManager {
     /**
      * This method creates and returns the URL for performing Role related operations.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(accessor.getCurrentCell().getUrl());
         sb.append("__ctl/Role");
         return sb.toString();

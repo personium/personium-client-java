@@ -212,9 +212,10 @@ public class Box extends DavCollection implements ILinkageResource {
     /**
      * This method creates the URL for performing box related operations.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String makeUrlForLink() {
+    public String makeUrlForLink() throws DaoException {
         StringBuilder sb = new StringBuilder(this.accessor.getCurrentCell().getUrl());
         sb.append("__ctl/");
         sb.append(this.getClassName());

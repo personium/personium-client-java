@@ -47,9 +47,10 @@ public class AccountManager extends ODataManager {
     /**
      * This method creates and returns the URL for performing operations on Account.
      * @return URL In string form
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(accessor.getCurrentCell().getUrl());
         sb.append("__ctl/Account");
         return sb.toString();

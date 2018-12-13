@@ -20,8 +20,8 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
-import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.IRestAdapter;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
 import io.personium.client.utils.Utils;
@@ -468,8 +468,9 @@ public class ODataManager implements IODataManager {
      * This method checks whether the specified Odata exists.
      * @param id ID value
      * @return true:Survival false:Absence
+     * @throws DaoException DaoException
      */
-    public Boolean exists(String id) {
+    public Boolean exists(String id) throws DaoException {
         String url = this.getUrl() + "('" + id + "')";
         IRestAdapter rest = RestAdapterFactory.create(accessor);
         try {
@@ -483,9 +484,10 @@ public class ODataManager implements IODataManager {
     /**
      * This method generates the URL for executing API calls.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder();
         // $Batchモードの場合は、相対パス
         /** In the case of $ Batch mode, the relative path . */

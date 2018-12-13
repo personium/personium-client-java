@@ -43,9 +43,10 @@ public class RelationManager extends ODataManager {
     /**
      * This method creates and returns the URL for performing Relation operations.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(accessor.getCurrentCell().getUrl());
         sb.append("__ctl/Relation");
         return sb.toString();

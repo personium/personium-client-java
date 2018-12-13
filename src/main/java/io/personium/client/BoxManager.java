@@ -44,9 +44,10 @@ public class BoxManager extends ODataManager {
     /**
      * This method is used to generate the URL for performing Box related operations.
      * @return URL value
+     * @throws DaoException DaoException
      */
     @Override
-    public String getUrl() {
+    public String getUrl() throws DaoException {
         StringBuilder sb = new StringBuilder(accessor.getCurrentCell().getUrl());
         sb.append("__ctl/Box");
         return sb.toString();

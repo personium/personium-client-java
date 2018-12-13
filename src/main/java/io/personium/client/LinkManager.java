@@ -90,8 +90,9 @@ public class LinkManager {
      * This method is used to generate and return the link URL.
      * @param cx ILinkageResource
      * @return Link URL value
+     * @throws DaoException DaoException
      */
-    protected String getLinkUrl(final ILinkageResource cx) {
+    protected String getLinkUrl(final ILinkageResource cx) throws DaoException {
         StringBuilder sb = new StringBuilder();
         sb.append(this.context.makeUrlForLink());
         sb.append("_" + cx.getClassName());

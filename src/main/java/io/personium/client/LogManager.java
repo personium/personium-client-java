@@ -18,8 +18,8 @@ package io.personium.client;
 
 import java.util.HashMap;
 
-import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.IRestAdapter;
+import io.personium.client.http.PersoniumResponse;
 import io.personium.client.http.RestAdapterFactory;
 
 ///**
@@ -42,8 +42,9 @@ public abstract class LogManager {
      * This method is used to get the URL of the event log.
      * @param filename File Name of the event log
      * @return Event Log URL
+     * @throws DaoException DaoException
      */
-    protected abstract String getLogUrl(String filename);
+    protected abstract String getLogUrl(String filename) throws DaoException;
 
     // /**
     // * コンストラクタ.

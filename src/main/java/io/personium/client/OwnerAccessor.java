@@ -38,8 +38,9 @@ public class OwnerAccessor extends Accessor {
     /**
      * This is the parameterized constructor with one argument calling its parent constructor internally.
      * @param personiumContext personiumContext object
+     * @throws DaoException DaoException
      */
-    public OwnerAccessor(PersoniumContext personiumContext) {
+    public OwnerAccessor(PersoniumContext personiumContext) throws DaoException {
         super(personiumContext);
     }
 
@@ -54,13 +55,13 @@ public class OwnerAccessor extends Accessor {
         super(personiumContext);
         this.setAccessToken(as.getAccessToken());
         this.setAccessType(as.getAccessType());
-        this.setCellName(as.getCellName());
+        this.setCell(as.getCellName());
         this.setUserId(as.getUserId());
         this.setPassword(as.getPassword());
         this.setSchema(as.getSchema());
         this.setSchemaUserId(as.getSchemaUserId());
         this.setSchemaPassword(as.getSchemaPassword());
-        this.setTargetCellName(as.getTargetCellName());
+        this.setTargetCellUrl(as.getTargetCellUrl());
         this.setTransCellToken(as.getTransCellToken());
         this.setTransCellRefreshToken(as.getTransCellRefreshToken());
         this.setBoxSchema(as.getBoxSchema());
