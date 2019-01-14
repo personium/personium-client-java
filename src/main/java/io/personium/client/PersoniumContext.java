@@ -103,9 +103,11 @@ public class PersoniumContext {
      * @param name Cell Name
      * @param boxSchema Box DataSchemaURI
      * @param bName Box Name
+     * @param pathBaseEnabled pathBaseEnabled
      * @throws DaoException DaoException
      */
-    public PersoniumContext(final String url, final String name, final String boxSchema, String bName)
+    public PersoniumContext(final String url, final String name, final String boxSchema,
+            String bName, boolean pathBaseEnabled)
             throws DaoException {
         this.baseUrl = url;
         String c = this.baseUrl.substring(this.baseUrl.length() - 1);
@@ -113,6 +115,7 @@ public class PersoniumContext {
             this.baseUrl += "/";
         }
         this.currentCellName = name;
+        this.pathBasedCellUrlEnabled = pathBaseEnabled;
         this.currentCellUrl = makeCellUrl(name) + "/";
         this.schema = boxSchema;
         this.boxName = bName;
