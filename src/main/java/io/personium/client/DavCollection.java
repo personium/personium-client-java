@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.w3c.dom.Document;
@@ -148,7 +149,7 @@ public class DavCollection extends PersoniumCollection {
      * @return List of resources
      * @throws DaoException Exception thrown
      */
-    public String[] getFileList() throws DaoException {
+    public List<String> getFileList() throws DaoException {
         return getResourceList(false);
     }
 
@@ -162,7 +163,7 @@ public class DavCollection extends PersoniumCollection {
      * @return List of sub-collection
      * @throws DaoException Exception thrown
      */
-    public String[] getColList() throws DaoException {
+    public List<String> getColList() throws DaoException {
         return getResourceList(true);
     }
 
@@ -172,7 +173,7 @@ public class DavCollection extends PersoniumCollection {
      * @return List of resources
      * @throws DaoException Exception thrown
      */
-    private String[] getResourceList(boolean folder) throws DaoException {
+    private List<String> getResourceList(boolean folder) throws DaoException {
         ArrayList<String> folderList = new ArrayList<String>();
         ArrayList<String> fileList = new ArrayList<String>();
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
@@ -192,9 +193,9 @@ public class DavCollection extends PersoniumCollection {
             }
         }
         if (folder) {
-            return folderList.toArray(new String[0]);
+            return folderList;
         } else {
-            return fileList.toArray(new String[0]);
+            return fileList;
         }
     }
 
