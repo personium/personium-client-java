@@ -158,7 +158,7 @@ public class Accessor implements Cloneable {
      * @throws DaoException Exception thrown
      */
     public Cell cell(String cell) throws DaoException {
-        if (!this.authCellName.equals(cell)) {
+        if (!this.authCellName.equals(cell) && !this.authCellUrl.equals(cell)) {
             setTargetCell(cell);
         }
         // Unit昇格時はこのタイミングで認証を行わない

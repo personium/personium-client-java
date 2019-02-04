@@ -73,7 +73,7 @@ public class CellManager extends ODataManager {
     @SuppressWarnings("unchecked")
     public Cell create(Cell obj) throws DaoException {
         JSONObject body = new JSONObject();
-        body.put("Name", obj.getCellName());
+        body.put("Name", obj.getName());
         JSONObject json = this.cellCreate(body);
         obj.initialize(this.accessor, json);
         return obj;

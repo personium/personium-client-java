@@ -42,9 +42,9 @@ public class Cell extends AbstractODataContext {
 
     // /** Cell名. */
     /** Cell Name. */
-    private String cellName;
+    private String name;
     /** Cell URL. */
-    private String cellUrl;
+    private String url;
     /** Location. */
     private String location;
 
@@ -124,7 +124,7 @@ public class Cell extends AbstractODataContext {
      */
     public Cell(Accessor as, String key) throws DaoException {
         super(as);
-        this.cellName = key;
+        this.name = key;
         this.initialize(as, null);
     }
 
@@ -159,15 +159,15 @@ public class Cell extends AbstractODataContext {
         super.initialize(as);
         if (json != null) {
             this.rawData = json;
-            this.cellName = (String) json.get("Name");
+            this.name = (String) json.get("Name");
             this.location = (String) ((JSONObject) json.get("__metadata")).get("uri");
         }
-        this.cellName = accessor.getContext().extractCellName(cellName);
-        this.cellUrl = accessor.getContext().makeCellUrl(cellName);
+        this.name = accessor.getContext().extractCellName(name);
+        this.url = accessor.getContext().makeCellUrl(name);
         this.accessor.setCurrentCell(this);
         this.relation = new RelationManager(this.accessor);
         this.role = new RoleManager(this.accessor);
-        this.acl = new AclManager(this.accessor, this.cellUrl);
+        this.acl = new AclManager(this.accessor, this.url);
         this.account = new AccountManager(this.accessor);
         this.box = new BoxManager(this.accessor);
         this.boxManager = new BoxManager(this.accessor);
@@ -186,8 +186,8 @@ public class Cell extends AbstractODataContext {
      * This method returns the Cell Name.
      * @return Cell Name value
      */
-    public String getCellName() {
-        return cellName;
+    public String getName() {
+        return name;
     }
 
     // /**
@@ -198,8 +198,8 @@ public class Cell extends AbstractODataContext {
      * This method sets the Cell Name.
      * @param value CellName
      */
-    public void setCellName(String value) {
-        this.cellName = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
     // /**
@@ -212,11 +212,11 @@ public class Cell extends AbstractODataContext {
      * @throws DaoException DaoException
      */
     public String getUrl() throws DaoException {
-        String url = cellUrl;
+        String normalizedUrl = url;
         if (!url.endsWith("/")) {
-            url = url + "/";
+            normalizedUrl = url + "/";
         }
-        return url;
+        return normalizedUrl;
     }
 
     // /**
@@ -360,7 +360,7 @@ public class Cell extends AbstractODataContext {
          * If the URL of this Cell equals to the one set in the personiumContext,
          * return the box configured in the personiumContext without the following URL discovery process.
          */
-        if (cellUrl != null && getUrl().equals(context.getCurrentCellUrl())) {
+        if (url != null && getUrl().equals(context.getCurrentCellUrl())) {
             return box(context.getBoxName(), context.getBoxSchema());
         }
 
@@ -467,7 +467,7 @@ public class Cell extends AbstractODataContext {
      * @return OData Key
      */
     public String getKey() {
-        return String.format("('%s')", this.cellName);
+        return String.format("('%s')", this.name);
     }
 
     // /**
