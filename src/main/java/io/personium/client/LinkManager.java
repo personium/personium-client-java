@@ -21,6 +21,7 @@ import org.json.simple.JSONObject;
 import io.personium.client.http.IRestAdapter;
 import io.personium.client.http.RestAdapter;
 import io.personium.client.http.RestAdapterFactory;
+import io.personium.client.utils.Utils;
 
 ///**
 // * OData関連の各機能を生成/削除するためのクラスの抽象クラス.
@@ -75,7 +76,7 @@ public class LinkManager {
         }
 
         JSONObject body = new JSONObject();
-        body.put("uri", linksUri);
+        body.put("uri", Utils.decodeURL(linksUri));
 
         IRestAdapter rest = RestAdapterFactory.create(accessor);
         rest.post(uri, body.toJSONString(), RestAdapter.CONTENT_TYPE_JSON);
