@@ -17,6 +17,7 @@
 package io.personium.client.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 ///**
@@ -53,6 +54,19 @@ public final class Utils {
     public static String escapeURI(final String in) {
         try {
             return URLEncoder.encode(in, Utils.encoding);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    /**
+     * This method is used for decoding URL.
+     * @param in Character string to be encoded
+     * @return String returned after decoding
+     */
+    public static String decodeURL(String in) {
+        try {
+            return URLDecoder.decode(in, Utils.encoding);
         } catch (UnsupportedEncodingException e) {
             return null;
         }
