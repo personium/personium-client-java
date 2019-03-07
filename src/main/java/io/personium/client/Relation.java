@@ -38,10 +38,10 @@ public class Relation extends AbstractODataContext {
 
     // /** Roleとのリンクマネージャ. */
     /** Link Manager for Role. */
-    public ODataLinkManager role;
+    public ODataLinkManager role; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ExtCellとのリンクマネージャ. */
     /** Link Manager for ExtCell. */
-    public ODataLinkManager extCell;
+    public ODataLinkManager extCell; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

@@ -38,7 +38,7 @@ public class Account extends AbstractODataContext {
 
     // /** Roleとのリンクマネージャ. */
     /** Link Manager for Role. */
-    public ODataLinkManager role;
+    public ODataLinkManager role; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

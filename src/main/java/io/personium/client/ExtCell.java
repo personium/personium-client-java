@@ -36,10 +36,10 @@ public class ExtCell extends AbstractODataContext {
 
     // /** Roleとのリンクマネージャ. */
     /** Link manager for Role. */
-    public ODataLinkManager role;
+    public ODataLinkManager role; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** Relationとのリンクマネージャ. */
     /** Link manager for Relation. */
-    public ODataLinkManager relation;
+    public ODataLinkManager relation; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

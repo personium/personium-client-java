@@ -27,7 +27,7 @@ public class OwnerAccessor extends Accessor {
     // CHECKSTYLE:OFF
     /** ユニットレベルAPI へアクセスするためのクラスインスタンス。cell().unit でアクセス. */
     /** Class instance for access to the unit level API. */
-    public UnitManager unit;
+    public UnitManager unit; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // CHECKSTYLE:ON
 

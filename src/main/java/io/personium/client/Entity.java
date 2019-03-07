@@ -33,7 +33,7 @@ public class Entity implements ILinkageResource {
     HashMap<String, String> headers = new HashMap<String, String>();
     // /** Accountとのリンクマネージャ. */
     /** Link Manager for OData. */
-    public ODataLinkManager entity;
+    public ODataLinkManager entity; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ID値. */
     /** ID value. */
     private String id;

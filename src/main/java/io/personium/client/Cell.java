@@ -51,37 +51,37 @@ public class Cell extends AbstractODataContext {
     // CHECKSTYLE:OFF
     // /** CellレベルACLへアクセスするためのクラス. */
     /** Class to access to the Cell level ACL. */
-    public AclManager acl;
+    public AclManager acl; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** メンバーへアクセスするためのクラスインスタンス。cell().accountでアクセス. */
     /** Class instance to access the member AccountManager. */
-    public AccountManager account;
+    public AccountManager account; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** BoxのCRUDを行うマネージャクラス. */
     /** Manager class to perform CRUD of Box. */
-    public BoxManager box;
+    public BoxManager box; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** BoxのCRUDを行うマネージャクラス. */
     /** Manager class to perform CRUD of Box. */
-    public BoxManager boxManager;
+    public BoxManager boxManager; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** Relation へアクセスするためのクラス. */
     /** Manager class to perform CRUD of Relation. */
-    public RelationManager relation;
+    public RelationManager relation; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** Role へアクセスするためのクラス. */
     /** Manager class to perform CRUD of Role. */
-    public RoleManager role;
+    public RoleManager role; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ExtRole へアクセスするためのクラス. */
     /** Manager class to perform CRUD of ExternalRole. */
-    public ExtRoleManager extRole;
+    public ExtRoleManager extRole; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ExtCell へアクセスするためのクラス. */
     /** Manager class to perform CRUD of ExternalCell. */
-    public ExtCellManager extCell;
+    public ExtCellManager extCell; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** cellレベルEventへアクセスするためのクラス. */
     /** Manager class to perform CRUD of Event. */
-    public EventManager event;
+    public EventManager event; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** cellレベルEvent(current)へアクセスするためのクラス. */
     /** Class variable to access the (current) cell level Event. */
-    public LogManager currentLog;
+    public LogManager currentLog; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** cellレベルEvent(archive)へアクセスするためのクラス. */
     /** Class variable to access the (archive) cell level Event. */
-    public LogManager archiveLog;
+    public LogManager archiveLog; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // CHECKSTYLE:ON
 
@@ -366,19 +366,19 @@ public class Cell extends AbstractODataContext {
 
         /** Discover the Box Url from Authorization Header or from Box Schema Url */
         String schemaUrl = null;
-        String url = null;
+        String boxAccessUrl = null;
         if (schemaUrlFromAuthzHeader != null) {
-            url = UrlUtils.append(this.getUrl(), "__box");
+            boxAccessUrl = UrlUtils.append(this.getUrl(), "__box");
             schemaUrl = schemaUrlFromAuthzHeader;
         } else if (schemaUrlFromContext != null) {
-            url = UrlUtils.append(this.getUrl(), "__box?schema=" + Utils.escapeURI(schemaUrlFromContext));
+            boxAccessUrl = UrlUtils.append(this.getUrl(), "__box?schema=" + Utils.escapeURI(schemaUrlFromContext));
             schemaUrl = schemaUrlFromContext;
         } else {
             throw new DaoException("Cannot specify the box.");
         }
         Accessor tmpAccessor = this.accessor.clone();
         IRestAdapter rest = RestAdapterFactory.create(tmpAccessor);
-        PersoniumResponse resp = rest.get(url, RestAdapter.CONTENT_TYPE_JSON);
+        PersoniumResponse resp = rest.get(boxAccessUrl, RestAdapter.CONTENT_TYPE_JSON);
         String locationHeader = resp.getHeader(HttpHeaders.LOCATION);
         /** Extract the box name from box URL */
         String[] params = locationHeader.split("/");
@@ -408,10 +408,10 @@ public class Cell extends AbstractODataContext {
         if (boxName.startsWith("http://") || boxName.startsWith("https://")) {
             // SchemaからBox名を引く
             /** Fetch Box name from Box schema. */
-            String url = UrlUtils.append(this.getUrl(), "__box?schema=" + Utils.escapeURI(param));
+            String boxAccessUrl = UrlUtils.append(this.getUrl(), "__box?schema=" + Utils.escapeURI(param));
             Accessor tmpAccessor = this.accessor.clone();
             IRestAdapter rest = RestAdapterFactory.create(tmpAccessor);
-            PersoniumResponse resp = rest.get(url, RestAdapter.CONTENT_TYPE_JSON);
+            PersoniumResponse resp = rest.get(boxAccessUrl, RestAdapter.CONTENT_TYPE_JSON);
             String locationHeader = resp.getHeader(HttpHeaders.LOCATION);
             String[] params = locationHeader.split("/");
             if (locationHeader.endsWith("/")) {
@@ -422,8 +422,8 @@ public class Cell extends AbstractODataContext {
         }
 
         this.accessor.setBoxName(boxName);
-        String url = UrlUtils.append(this.accessor.getCurrentCell().getUrl(), accessor.getBoxName());
-        return new Box(this.accessor, boxName, "", url);
+        String boxAccessUrl = UrlUtils.append(this.accessor.getCurrentCell().getUrl(), accessor.getBoxName());
+        return new Box(this.accessor, boxName, "", boxAccessUrl);
     }
 
     // /**
@@ -442,8 +442,8 @@ public class Cell extends AbstractODataContext {
      */
     public Box box(String boxName, String schemaValue) throws DaoException {
         this.accessor.setBoxName(boxName);
-        String url = UrlUtils.append(this.accessor.getCurrentCell().getUrl(), accessor.getBoxName());
-        return new Box(this.accessor, boxName, schemaValue, url);
+        String boxAccessUrl = UrlUtils.append(this.accessor.getCurrentCell().getUrl(), accessor.getBoxName());
+        return new Box(this.accessor, boxName, schemaValue, boxAccessUrl);
     }
 
     // /**

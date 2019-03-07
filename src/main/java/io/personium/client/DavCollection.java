@@ -50,7 +50,7 @@ public class DavCollection extends PersoniumCollection {
     // CHECKSTYLE:OFF
     // /** boxレベルACLへアクセスするためのクラス. */
     /** Reference variable to access the box level ACL. */
-    public AclManager acl;
+    public AclManager acl; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // CHECKSTYLE:ON
 

@@ -40,7 +40,7 @@ public class AssociationEnd extends AbstractODataContext {
 
     // /** Accountとのリンクマネージャ. */
     /** Account class for EventLog acquisition. */
-    public MetadataLinkManager associationEnd;
+    public MetadataLinkManager associationEnd; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

@@ -115,18 +115,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.9.0</version>
@@ -147,7 +135,6 @@
                         <exclude>checkstyle_maven.properties</exclude>
                         <exclude>checkstyle-suppressions.xml</exclude>
                         <exclude>personium-checkstyle.xml</exclude>
-                        <exclude>findbugs-exclude.xml</exclude>
                         <exclude>pom.xml</exclude>
                         <exclude>logback.xml</exclude>
                         <exclude>log4j.xml</exclude>
@@ -233,18 +220,6 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
