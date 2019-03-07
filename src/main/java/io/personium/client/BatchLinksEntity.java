@@ -27,7 +27,7 @@ public class BatchLinksEntity implements ILinkageResource {
 
     // /** Entityとのリンクマネージャ. */
     /** Link manager with Entity. */
-    public LinkManager entity;
+    public LinkManager entity; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ODataコレクションのURL. */
     /** OData collection URL. */
     private String collectionUrl;

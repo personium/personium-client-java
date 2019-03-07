@@ -15,10 +15,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <final.name>personium-client-java</final.name>
         <java.version>1.8</java.version>
-        <jvm.option>-Xms512m -Xmx512m -XX:MaxPermSize=256m -XX:-UseSplitVerifier</jvm.option>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <httpclient.version>4.5.5</httpclient.version>
+        <jacoco.include.package>io.personium.*</jacoco.include.package>
     </properties>
 
     <build>
@@ -84,7 +84,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.21.0</version>
                 <configuration>
-                    <argLine>${jvm.option}</argLine>
+                    <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -115,18 +115,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.9.0</version>
@@ -147,7 +135,6 @@
                         <exclude>checkstyle_maven.properties</exclude>
                         <exclude>checkstyle-suppressions.xml</exclude>
                         <exclude>personium-checkstyle.xml</exclude>
-                        <exclude>findbugs-exclude.xml</exclude>
                         <exclude>pom.xml</exclude>
                         <exclude>logback.xml</exclude>
                         <exclude>log4j.xml</exclude>
@@ -158,6 +145,26 @@
                         <exclude>CHANGES.txt</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.1</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>jacocoArgs</propertyName>
+                            <includes>
+                                <include>${jacoco.include.package}</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -215,18 +222,6 @@
                 </reportSets>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.9.0</version>
@@ -243,6 +238,11 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javancss-maven-plugin</artifactId>
                 <version>2.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.1</version>
             </plugin>
         </plugins>
     </reporting>

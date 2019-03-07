@@ -27,19 +27,19 @@ public class ODataCollection extends PersoniumCollection {
     // CHECKSTYLE:OFF
     // /** EntitySetアクセスするためのクラス. */
     /** Manager to access EntityType. */
-    public EntityTypeManager entityType;
+    public EntityTypeManager entityType; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** assosiationendアクセスのためのクラス. */
     /** Manager to access AssociationEnd. */
-    public AssociationEndManager associationEnd;
+    public AssociationEndManager associationEnd; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ComplexTypeアクセスのためのクラス. */
     /** Manager to access ComplexType. */
-    public ComplexTypeManager complexType;
+    public ComplexTypeManager complexType; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** Propertyアクセスのためのクラス. */
     /** Manager to access Property. */
-    public PropertyManager property;
+    public PropertyManager property; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ComplexTypePropertyアクセスのためのクラス. */
     /** Manager to access ComplexTypeProperty. */
-    public ComplexTypePropertyManager complexTypeProperty;
+    public ComplexTypePropertyManager complexTypeProperty; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // CHECKSTYLE:ON
 

@@ -28,7 +28,7 @@ public class UnitManager {
     private Accessor accessor;
     // /** CellのCRUDを行う. */
     /** Reference to CellManager to perform Cell related CRUD. */
-    public CellManager cell;
+    public CellManager cell; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

@@ -60,7 +60,7 @@ public class PersoniumContext {
 
     // /** デフォルトリクエストヘッダ. */
     /** Default Headers. */
-    protected HashMap<String, String> defaultHeaders = new HashMap<String, String>();
+    protected HashMap<String, String> defaultHeaders = new HashMap<String, String>(); // CHECKSTYLE IGNORE - It needs to be protected for calls from engine.
 
     // /**
     // * バージョン情報を指定するヘッダ.

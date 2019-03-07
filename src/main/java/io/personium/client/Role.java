@@ -36,20 +36,18 @@ public class Role extends AbstractODataContext implements Principal {
     /** _box.name. */
     private String boxname;
 
-    // CHECKSTYLE:OFF
     // /** Accountとのリンクマネージャ. */
     /** Link Manager for Account. */
-    public ODataLinkManager account;
+    public ODataLinkManager account; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** Relationとのリンクマネージャ. */
     /** Link Manager for Relation. */
-    public ODataLinkManager relation;
+    public ODataLinkManager relation; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ExtCellとのリンクマネージャ. */
     /** Link Manager for ExtCell. */
-    public ODataLinkManager extCell;
+    public ODataLinkManager extCell; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
     // /** ExtRoleとのリンクマネージャ. */
     /** Link Manager for ExtRole. */
-    public ODataLinkManager extRole;
-    // CHECKSTYLE:ON
+    public ODataLinkManager extRole; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.

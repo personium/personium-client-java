@@ -81,7 +81,7 @@ public class Accessor implements Cloneable {
     private String schemaPassword;
 
     /** Cell name. */
-    protected String targetCellUrl;
+    protected String targetCellUrl; // CHECKSTYLE IGNORE - It needs to be protected for calls from engine.
 
     /** Transformer cell token. */
     private String transCellToken;
@@ -89,7 +89,7 @@ public class Accessor implements Cloneable {
     private String transCellRefreshToken;
 
     /** Owner. */
-    protected boolean owner = false;
+    protected boolean owner = false; // CHECKSTYLE IGNORE - It needs to be protected for calls from engine.
 
     /** Current Box Schema. */
     private String boxSchema = "";

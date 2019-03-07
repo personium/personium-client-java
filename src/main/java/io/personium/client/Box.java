@@ -38,7 +38,7 @@ public class Box extends DavCollection implements ILinkageResource {
 
     // /** Roleとのリンクマネージャ. */
     /** Link manager of the Role. */
-    public ODataLinkManager role;
+    public ODataLinkManager role; // CHECKSTYLE IGNORE - It needs to be public for calls from engine.
 
     // /**
     // * コンストラクタ.
