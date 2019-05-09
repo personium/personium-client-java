@@ -30,7 +30,6 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.AbstractHttpClient;
 
@@ -49,6 +48,8 @@ public class RestAdapter implements IRestAdapter {
     // /** ログオブジェクト. */
     // private static Log log = LogFactory.getLog(RestAdapter.class);
 
+    /** HTTPClient. */
+    private HttpClient httpClient;
     // /** アクセス主体. */
     /** Reference to Accessor. */
     private Accessor accessor;
@@ -63,14 +64,6 @@ public class RestAdapter implements IRestAdapter {
      */
     public RestAdapter(Accessor as) {
         this.accessor = as;
-    }
-
-    /**
-     * create http client.
-     * @return http client
-     */
-    public HttpClient createHttpClient() {
-        HttpClient httpClient = null;
         DaoConfig config = accessor.getDaoConfig();
         httpClient = config.getHttpClient();
         if (httpClient == null) {
@@ -90,7 +83,30 @@ public class RestAdapter implements IRestAdapter {
                         new UsernamePasswordCredentials(proxyUsername, proxyPassword));
             }
         }
-        return httpClient;
+    }
+
+    // /**
+    // * HttpClientを置き換える(ユニットテスト用).
+    // * @param value HttpClientオブジェクト
+    // */
+    /**
+     * This method is used to set the HttpClient value.
+     * @param value HttpClient object
+     */
+    public void setHttpClient(HttpClient value) {
+        this.httpClient = value;
+    }
+
+    // /**
+    // * HttpClientを取得する.
+    // * @return HttpClientオブジェクト
+    // */
+    /**
+     * This method is used to get the HttpClient value.
+     * @return HttpClient object
+     */
+    public HttpClient getHttpClient() {
+        return this.httpClient;
     }
 
     // /**
@@ -628,9 +644,7 @@ public class RestAdapter implements IRestAdapter {
      * @throws DaoException Exception thrown
      */
     private PersoniumResponse request(HttpUriRequest httpReq) throws DaoException {
-        HttpClient httpClient = null;
         try {
-            httpClient = this.createHttpClient();
             HttpResponse objResponse = httpClient.execute(httpReq);
             PersoniumResponse dcRes = new PersoniumResponse(objResponse);
 
@@ -642,8 +656,6 @@ public class RestAdapter implements IRestAdapter {
             return dcRes;
         } catch (IOException ioe) {
             throw DaoException.create("io exception : " + ioe.getMessage(), 0);
-        } finally {
-            HttpClientUtils.closeQuietly(httpClient);
         }
     }
 
