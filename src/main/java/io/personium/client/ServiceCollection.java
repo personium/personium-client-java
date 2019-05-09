@@ -26,7 +26,9 @@ import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.HttpClientUtils;
 
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
@@ -141,15 +143,19 @@ public class ServiceCollection extends PersoniumCollection {
             drb.body(body);
         }
         HttpResponse response = null;
+        HttpClient client = null;
         try {
             HttpUriRequest req = drb.build();
-            response = rest.getHttpClient().execute(req);
+            client = rest.createHttpClient();
+            response = client.execute(req);
         } catch (DaoException e) {
             throw new RuntimeException(e);
         } catch (ClientProtocolException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            HttpClientUtils.closeQuietly(client);
         }
         return new PersoniumResponse(response);
     }
