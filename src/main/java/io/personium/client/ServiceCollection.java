@@ -154,7 +154,7 @@ public class ServiceCollection extends PersoniumCollection {
 
             transformer.transform(new DOMSource(document), new StreamResult(sw));
 
-        } catch (ParserConfigurationException|TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             throw new RuntimeException(e);
         }
 
