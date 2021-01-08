@@ -60,7 +60,7 @@ import io.personium.client.utils.UrlUtils;
 public class ServiceCollection extends PersoniumCollection {
     public interface IPersoniumServiceRoute {
         String getName();
-        public String getSrc();
+        String getSrc();
     }
     // /**
     // * コンストラクタ.
