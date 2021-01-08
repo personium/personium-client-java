@@ -59,7 +59,7 @@ import io.personium.client.utils.UrlUtils;
  */
 public class ServiceCollection extends PersoniumCollection {
     public interface IPersoniumServiceRoute {
-        public String getName();
+        String getName();
         public String getSrc();
     }
     // /**
