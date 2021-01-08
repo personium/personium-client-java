@@ -34,6 +34,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -58,10 +59,58 @@ import io.personium.client.utils.UrlUtils;
  * It creates a new object of ServiceCollection. This class performs CRUD operations for ServiceCollection.
  */
 public class ServiceCollection extends PersoniumCollection {
+
+    /**
+     * Interface for configuration of service collection
+     */
     public interface IPersoniumServiceRoute {
+        /**
+         * getter returning name of serivce collection
+         */
         String getName();
+
+        /**
+         * getter returning source of service collection
+         * @return
+         */
         String getSrc();
     }
+
+    /**
+     * Internal class for configuration of service collection
+     */
+    class PersoniumServiceRoute implements IPersoniumServiceRoute {
+        /** name of service route */
+        private String name;
+
+        /** source of service route */
+        private String src;
+
+        /**
+         * This method returns name of service route
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        /**
+         * This method returns source of service route
+         */
+        public String getSrc() {
+            return this.src;
+        }
+
+        /**
+         * This is the constructor
+         * @param name name of service route
+         * @param src source of service route
+         */
+        public PersoniumServiceRoute(String name, String src) {
+            this.name = name;
+            this.src = src;
+        }
+    }
+
     // /**
     // * コンストラクタ.
     // * @param as アクセス主体
@@ -88,33 +137,13 @@ public class ServiceCollection extends PersoniumCollection {
         super(as, path);
     }
 
-    // /**
-    // * サービスの設定.
-    // * @param key プロパティ名
-    // * @param value プロパティの値
-    // * @param subject サービスサブジェクトの値
-    // * @throws DaoException DAO例外
-    // */
     /**
-     * This method configures a set of services.
-     * @param key Property Name
-     * @param value Property Value
-     * @param subject Value of the service subject
-     * @throws DaoException Exception thrown
-     */
-    public void configure(String key, String value, String subject) throws DaoException {
-        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.setService(this.getPath(), key, value, subject);
-    }
-
-    /**
-     * This method configures a set of services.
+     * This method generate XML string for configuration of service.
      * @param routes list of route
      * @param subject Value of the service subject
-     * @throws DaoException Exception thrown
+     * @return String XML for configuration
      */
-    public void configure(List<IPersoniumServiceRoute> routes, String subject) throws DaoException {
-        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
+    public String createConfigureXML(List<IPersoniumServiceRoute> routes, String subject) {
         StringWriter sw = new StringWriter();
 
         try {
@@ -153,12 +182,45 @@ public class ServiceCollection extends PersoniumCollection {
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 
             transformer.transform(new DOMSource(document), new StreamResult(sw));
-
         } catch (ParserConfigurationException | TransformerException e) {
             throw new RuntimeException(e);
         }
 
-        rest.proppatch(this.getPath(), sw.toString());
+        return sw.toString();
+    }
+
+    // /**
+    // * サービスの設定.
+    // * @param key プロパティ名
+    // * @param value プロパティの値
+    // * @param subject サービスサブジェクトの値
+    // * @throws DaoException DAO例外
+    // */
+    /**
+     * This method configures a set of services.
+     * @param key name of service route
+     * @param value source of service route
+     * @param subject Value of the service subject
+     * @throws DaoException Exception thrown
+     */
+    public void configure(String key, String value, String subject) throws DaoException {
+        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
+        ArrayList<IPersoniumServiceRoute> routes = new ArrayList<>();
+        routes.add(new PersoniumServiceRoute(key, value));
+        String configureXML = createConfigureXML(routes, subject);
+        rest.proppatch(this.getPath(), configureXML);
+    }
+
+    /**
+     * This method configures a set of services.
+     * @param routes list of route
+     * @param subject Value of the service subject
+     * @throws DaoException Exception thrown
+     */
+    public void configure(List<IPersoniumServiceRoute> routes, String subject) throws DaoException {
+        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
+        String configureXML = createConfigureXML(routes, subject);
+        rest.proppatch(this.getPath(), configureXML);
     }
 
     // /**
