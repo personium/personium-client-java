@@ -581,7 +581,7 @@ public class RestAdapter implements IRestAdapter {
     // * PROPPATCHメソッド.
     // * @param url リクエスト対象URL
     // * @param body PROPPATCH body
-    // * @return DcResponseオブジェクト
+    // * @return PersoniumResponseオブジェクト
     // * @throws DaoException DAO例外
     // */
     /**
