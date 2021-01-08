@@ -588,7 +588,7 @@ public class RestAdapter implements IRestAdapter {
      * This is the PROPPATCH method
      * @param url Target URL
      * @param body PROPPATCH body
-     * @return DcResponse object
+     * @return PersoniumResponse object
      * @throws DaoException Exception thrown
      */
     public PersoniumResponse proppatch(String url, String body) throws DaoException {
