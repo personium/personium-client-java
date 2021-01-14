@@ -204,7 +204,6 @@ public class ServiceCollection extends PersoniumCollection {
      * @throws DaoException Exception thrown
      */
     public void configure(String key, String value, String subject) throws DaoException {
-        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
         ArrayList<IPersoniumServiceRoute> routes = new ArrayList<>();
         routes.add(new PersoniumServiceRoute(key, value));
         configure(routes, subject);
