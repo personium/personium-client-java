@@ -19,14 +19,32 @@ package io.personium.client;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
@@ -41,6 +59,58 @@ import io.personium.client.utils.UrlUtils;
  * It creates a new object of ServiceCollection. This class performs CRUD operations for ServiceCollection.
  */
 public class ServiceCollection extends PersoniumCollection {
+
+    /**
+     * Interface for configuration of service collection
+     */
+    public interface IPersoniumServiceRoute {
+        /**
+         * getter returning name of serivce collection
+         */
+        String getName();
+
+        /**
+         * getter returning source of service collection
+         * @return
+         */
+        String getSrc();
+    }
+
+    /**
+     * Internal class for configuration of service collection
+     */
+    class PersoniumServiceRoute implements IPersoniumServiceRoute {
+        /** name of service route */
+        private String name;
+
+        /** source of service route */
+        private String src;
+
+        /**
+         * This method returns name of service route
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        /**
+         * This method returns source of service route
+         */
+        public String getSrc() {
+            return this.src;
+        }
+
+        /**
+         * This is the constructor
+         * @param name name of service route
+         * @param src source of service route
+         */
+        public PersoniumServiceRoute(String name, String src) {
+            this.name = name;
+            this.src = src;
+        }
+    }
+
     // /**
     // * コンストラクタ.
     // * @param as アクセス主体
@@ -67,6 +137,58 @@ public class ServiceCollection extends PersoniumCollection {
         super(as, path);
     }
 
+    /**
+     * This method generate XML string for configuration of service.
+     * @param routes list of route
+     * @param subject Value of the service subject
+     * @return String XML for configuration
+     */
+    public String createConfigureXML(List<IPersoniumServiceRoute> routes, String subject) {
+        StringWriter sw = new StringWriter();
+
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation domImpl = builder.getDOMImplementation();
+
+            String nsD = "DAV:";
+            String nsP = "urn:x-personium:xmlns";
+
+            Document document = domImpl.createDocument(nsD, "D:propertyupdate", null);
+            Element elemSet = document.createElementNS(nsD, "D:set");
+            Element elemProp = document.createElementNS(nsD, "D:prop");
+            document.getDocumentElement().appendChild(elemSet);
+            elemSet.appendChild(elemProp);
+
+            Element elemService = document.createElementNS(nsP, "p:service");
+            elemService.setAttribute("language", "JavaScript");
+            elemService.setAttribute("subject", subject);
+            elemProp.appendChild(elemService);
+
+            for (IPersoniumServiceRoute route : routes) {
+                Element elemPath = document.createElementNS(nsP, "p:path");
+                elemPath.setAttribute("name", route.getName());
+                elemPath.setAttribute("src", route.getSrc());
+                elemService.appendChild(elemPath);
+            }
+
+            TransformerFactory tf = TransformerFactory.newInstance();
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+            transformer.transform(new DOMSource(document), new StreamResult(sw));
+        } catch (ParserConfigurationException | TransformerException e) {
+            throw new RuntimeException(e);
+        }
+
+        return sw.toString();
+    }
+
     // /**
     // * サービスの設定.
     // * @param key プロパティ名
@@ -76,14 +198,27 @@ public class ServiceCollection extends PersoniumCollection {
     // */
     /**
      * This method configures a set of services.
-     * @param key Property Name
-     * @param value Property Value
+     * @param key name of service route
+     * @param value source of service route
      * @param subject Value of the service subject
      * @throws DaoException Exception thrown
      */
     public void configure(String key, String value, String subject) throws DaoException {
+        ArrayList<IPersoniumServiceRoute> routes = new ArrayList<>();
+        routes.add(new PersoniumServiceRoute(key, value));
+        configure(routes, subject);
+    }
+
+    /**
+     * This method configures a set of services.
+     * @param routes list of route
+     * @param subject Value of the service subject
+     * @throws DaoException Exception thrown
+     */
+    public void configure(List<IPersoniumServiceRoute> routes, String subject) throws DaoException {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.setService(this.getPath(), key, value, subject);
+        String configureXML = createConfigureXML(routes, subject);
+        rest.proppatch(this.getPath(), configureXML);
     }
 
     // /**
