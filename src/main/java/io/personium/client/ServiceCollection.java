@@ -207,8 +207,7 @@ public class ServiceCollection extends PersoniumCollection {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
         ArrayList<IPersoniumServiceRoute> routes = new ArrayList<>();
         routes.add(new PersoniumServiceRoute(key, value));
-        String configureXML = createConfigureXML(routes, subject);
-        rest.proppatch(this.getPath(), configureXML);
+        configure(routes, subject);
     }
 
     /**
