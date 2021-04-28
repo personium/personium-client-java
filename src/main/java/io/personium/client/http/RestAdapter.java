@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2018 FUJITSU LIMITED
+ * Copyright 2014-2021 - Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -580,6 +580,27 @@ public class RestAdapter implements IRestAdapter {
     // /**
     // * PROPPATCHメソッド.
     // * @param url リクエスト対象URL
+    // * @param body PROPPATCH body
+    // * @return PersoniumResponseオブジェクト
+    // * @throws DaoException DAO例外
+    // */
+    /**
+     * This is the PROPPATCH method
+     * @param url Target URL
+     * @param body PROPPATCH body
+     * @return PersoniumResponse object
+     * @throws DaoException Exception thrown
+     */
+    public PersoniumResponse proppatch(String url, String body) throws DaoException {
+        HttpUriRequest req = new PersoniumRequestBuilder().url(url).method("PROPPATCH").contentType(CONTENT_TYPE_XML)
+                .accept(CONTENT_TYPE_XML).body(body).token(getToken())
+                .defaultHeaders(this.accessor.getDefaultHeaders()).build();
+        return this.request(req);
+    }
+
+    // /**
+    // * PROPPATCHメソッド.
+    // * @param url リクエスト対象URL
     // * @param key プロパティ名
     // * @param value プロパティの値
     // * @return DcResponseオブジェクト
@@ -604,10 +625,7 @@ public class RestAdapter implements IRestAdapter {
         sb.append(key);
         sb.append(">");
         sb.append("</D:prop></D:set></D:propertyupdate>");
-        HttpUriRequest req = new PersoniumRequestBuilder().url(url).method("PROPPATCH").contentType(CONTENT_TYPE_XML)
-                .accept(CONTENT_TYPE_XML).body(sb.toString()).token(getToken())
-                .defaultHeaders(this.accessor.getDefaultHeaders()).build();
-        return this.request(req);
+        return this.proppatch(url, sb.toString());
     }
 
     // /**
