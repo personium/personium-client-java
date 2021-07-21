@@ -491,7 +491,7 @@ public class Cell extends AbstractODataContext {
      */
     public Box installBox(String boxName, InputStream barFile) throws DaoException {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.mkcol(boxName, barFile, IRestAdapter.CONTENT_TYPE_ZIP);
+        rest.mkcol(this.box(boxName, null).url.toString(), barFile, IRestAdapter.CONTENT_TYPE_ZIP);
         /** if an error response is returned in HTTP, DaoException will be thrown. */
         return this.box(boxName, null);
     }

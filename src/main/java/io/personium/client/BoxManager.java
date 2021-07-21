@@ -17,10 +17,15 @@
 package io.personium.client;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
+import io.personium.client.http.PersoniumResponse;
+import io.personium.client.http.RestAdapter;
+import io.personium.client.http.RestAdapterFactory;
 import io.personium.client.utils.UrlUtils;
+import io.personium.client.utils.Utils;
 
 ///**
 // * BoxのCRUDのためのクラス.
@@ -108,6 +113,20 @@ public class BoxManager extends ODataManager {
     public Box retrieve(String name) throws DaoException {
         JSONObject json = internalRetrieve(name);
         return new Box(accessor, json, UrlUtils.append(accessor.getCurrentCell().getUrl(), name));
+    }
+
+    /**
+     * This method performs recursively delete box
+     * @param boxName boxName to be delete
+     * @return PersoniumResponse 
+     * @throws DaoException Library Exception
+     */
+    public PersoniumResponse recursiveDelete(String boxName) throws DaoException {
+        String url = UrlUtils.append(accessor.getCurrentCell().getUrl(), Utils.escapeURI(boxName));
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("X-Personium-Recursive", "true");
+        RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
+        return rest.del(url, headers);
     }
 
 }
