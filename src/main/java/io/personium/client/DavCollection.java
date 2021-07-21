@@ -270,8 +270,8 @@ public class DavCollection extends PersoniumCollection {
     }
 
     /**
-     * Return self string.
-     * @return GET Response from this
+     * This method requests the GET method for the DAV collection itself by calling its overloaded version.
+     * @return GET Response int string form
      * @throws DaoException Exception thrown
      */
     public String getString() throws DaoException {
