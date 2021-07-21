@@ -272,7 +272,7 @@ public class DavCollection extends PersoniumCollection {
     /**
      * Return self string.
      * @return GET Response from this
-     * @throws DaoException EXception thrown
+     * @throws DaoException Exception thrown
      */
     public String getString() throws DaoException {
         return this.getString("");
