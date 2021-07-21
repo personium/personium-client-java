@@ -366,7 +366,11 @@ public class DavCollection extends PersoniumCollection {
      * @throws DaoException Exception thrown
      */
     public WebDAV getStringWebDAV(String pathValue, String charset) throws DaoException {
-        String url = !pathValue.equals("") ? UrlUtils.append(this.getPath(), pathValue) : this.getPath();
+        String url = UrlUtils.append(this.getPath(), pathValue);
+
+        if (pathValue == null || "".equals(pathValue)) {
+            url = this.getPath();
+        }
 
         // まずはキャッシュから検索する
         /** First search from cache. */
