@@ -61,47 +61,47 @@ import io.personium.client.utils.UrlUtils;
 public class ServiceCollection extends PersoniumCollection {
 
     /**
-     * Interface for configuration of service collection
+     * Interface for configuration of service collection.
      */
     public interface IPersoniumServiceRoute {
         /**
-         * getter returning name of serivce collection
+         * getter returning name of serivce collection.
          */
         String getName();
 
         /**
-         * getter returning source of service collection
+         * getter returning source of service collection.
          * @return
          */
         String getSrc();
     }
 
     /**
-     * Internal class for configuration of service collection
+     * Internal class for configuration of service collection.
      */
     class PersoniumServiceRoute implements IPersoniumServiceRoute {
-        /** name of service route */
+        /** name of service route. */
         private String name;
 
-        /** source of service route */
+        /** source of service route. */
         private String src;
 
         /**
-         * This method returns name of service route
+         * This method returns name of service route.
          */
         public String getName() {
             return this.name;
         }
 
         /**
-         * This method returns source of service route
+         * This method returns source of service route.
          */
         public String getSrc() {
             return this.src;
         }
 
         /**
-         * This is the constructor
+         * This is the constructor.
          * @param name name of service route
          * @param src source of service route
          */

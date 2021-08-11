@@ -585,7 +585,7 @@ public class RestAdapter implements IRestAdapter {
     // * @throws DaoException DAO例外
     // */
     /**
-     * This is the PROPPATCH method
+     * This is the PROPPATCH method.
      * @param url Target URL
      * @param body PROPPATCH body
      * @return PersoniumResponse object
