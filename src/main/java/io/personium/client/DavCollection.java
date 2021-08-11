@@ -269,6 +269,15 @@ public class DavCollection extends PersoniumCollection {
         return new ServiceCollection(this.accessor, UrlUtils.append(this.getPath(), name));
     }
 
+    /**
+     * This method requests the GET method for the DAV collection itself by calling its overloaded version.
+     * @return GET Response int string form
+     * @throws DaoException Exception thrown
+     */
+    public String getString() throws DaoException {
+        return this.getString("");
+    }
+
     // /**
     // * DAVに対するGETメソッドをリクエストする.
     // * @param pathValue 取得するパス
@@ -358,6 +367,10 @@ public class DavCollection extends PersoniumCollection {
      */
     public WebDAV getStringWebDAV(String pathValue, String charset) throws DaoException {
         String url = UrlUtils.append(this.getPath(), pathValue);
+
+        if (pathValue == null || "".equals(pathValue)) {
+            url = this.getPath();
+        }
 
         // まずはキャッシュから検索する
         /** First search from cache. */

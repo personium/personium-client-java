@@ -114,6 +114,15 @@ public class Box extends DavCollection implements ILinkageResource {
         this(as, (String) body.get("Name"), (String) body.get("Schema"), path);
     }
 
+    /**
+     * This method retrieves box meta data.
+     * @return Box meta data
+     * @throws DaoException Exception thrown while retrieving box meta data.
+     */
+    public String getMetaData() throws DaoException {
+        return this.getString("");
+    }
+
     // /**
     // * Box名を取得.
     // * @return Box名
