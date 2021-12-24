@@ -66,12 +66,13 @@ public class ServiceCollection extends PersoniumCollection {
     public interface IPersoniumServiceRoute {
         /**
          * getter returning name of serivce collection.
+         * @return name of service collection
          */
         String getName();
 
         /**
          * getter returning source of service collection.
-         * @return
+         * @return source of service collection
          */
         String getSrc();
     }
