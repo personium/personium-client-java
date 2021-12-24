@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014-2021 - Personium Project Authors
+ * Copyright 2014-2021 Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,6 +112,15 @@ public class Box extends DavCollection implements ILinkageResource {
      */
     public Box(Accessor as, JSONObject body, String path) throws DaoException {
         this(as, (String) body.get("Name"), (String) body.get("Schema"), path);
+    }
+
+    /**
+     * This method retrieves box meta data.
+     * @return Box meta data
+     * @throws DaoException Exception thrown while retrieving box meta data.
+     */
+    public String getMetaData() throws DaoException {
+        return this.getString("");
     }
 
     // /**

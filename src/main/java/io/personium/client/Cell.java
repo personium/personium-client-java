@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014-2021 - Personium Project Authors
+ * Copyright 2014-2021 Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -491,9 +491,10 @@ public class Cell extends AbstractODataContext {
      */
     public Box installBox(String boxName, InputStream barFile) throws DaoException {
         RestAdapter rest = (RestAdapter) RestAdapterFactory.create(this.accessor);
-        rest.mkcol(boxName, barFile, IRestAdapter.CONTENT_TYPE_ZIP);
+        Box targetBox = this.box(boxName, null);
+        rest.mkcol(targetBox.url.toString(), barFile, IRestAdapter.CONTENT_TYPE_ZIP);
         /** if an error response is returned in HTTP, DaoException will be thrown. */
-        return this.box(boxName, null);
+        return targetBox;
     }
 
     /**
