@@ -3,7 +3,7 @@
     <groupId>io.personium</groupId>
     <artifactId>personium-client-java</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.16-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <name>personium-client-java</name>
     <description>Java client library for Personium</description>
     <url>https://github.com/personium/personium-client-java</url>
