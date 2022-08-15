@@ -58,10 +58,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <final.name>personium-client-java</final.name>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <httpclient.version>4.5.13</httpclient.version>
+        <surefire.version>2.22.2</surefire.version>
+        <jacoco.version>0.8.7</jacoco.version>
         <jacoco.include.package>io.personium.*</jacoco.include.package>
     </properties>
     <repositories>
@@ -130,7 +132,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire.version}</version>
                 <configuration>
                     <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
                 </configuration>
@@ -197,7 +199,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -243,7 +245,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.21.0</version>
+                <version>${surefire.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -301,7 +303,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.1</version>
+                <version>${jacoco.version}</version>
             </plugin>
         </plugins>
     </reporting>
