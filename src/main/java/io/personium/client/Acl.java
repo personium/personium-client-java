@@ -145,6 +145,7 @@ public class Acl {
         // XML DOM 初期設定
         /** XML DOM default. */
         String nsD = "DAV:";
+        String nsP = "urn:x-personium:xmlns";
         String roleBaseUrlStr = this.roleBaseUrl;
         String nsDefault = "http://www.w3.org/XML/1998/namespace";
 
@@ -242,9 +243,40 @@ public class Acl {
                 Element elmPrivilege = document.createElementNS(nsD, "D:privilege");
                 elmGrant.appendChild(elmPrivilege);
 
-                // 各権限
                 /** Each authority. */
-                Element elm = document.createElementNS(nsD, "D:" + privilege);
+                String elmNS = "";
+                String elmPrefix = "";
+                switch(privilege) {
+                    case "root":
+                    case "auth":
+                    case "auth-read":
+                    case "message":
+                    case "message-read":
+                    case "event":
+                    case "event-read":
+                    case "log":
+                    case "log-read":
+                    case "social":
+                    case "social-read":
+                    case "box":
+                    case "box-read":
+                    case "box-install":
+                    case "acl":
+                    case "acl-read":
+                    case "propfind":
+                    case "rule":
+                    case "rule-read":
+                    case "sign":
+                    case "exec":
+                    case "stream-send":
+                    case "stream-receive":
+                        elmNS = nsP; elmPrefix = "p:";
+                        break;
+                    default:
+                        elmNS = nsD; elmPrefix = "D:";
+                        break;
+                }
+                Element elm = document.createElementNS(elmNS, elmPrefix + privilege);
                 elmPrivilege.appendChild(elm);
             }
         }
