@@ -59,7 +59,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <final.name>personium-client-java</final.name>
         <java.version>17</java.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.13</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <httpclient.version>4.5.13</httpclient.version>
         <surefire.version>2.22.2</surefire.version>
